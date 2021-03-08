@@ -30,7 +30,7 @@ def bot_was_blocked(connection, botid, chat_id):
 # convert Message
 def textsub(text, message):
     text = text.replace("\\n", "\n")
-    text = text.replace("<pkmn>", str(message['name'].decode()))
+    text = text.replace("<pkmn>", str(message['name']))
     text = text.replace("<pkmnid>", str(message['pokemon_id']))
     text = text.replace("<despawn>", str(message['despawn']))
     text = text.replace("<iv>", str(message['iv']))
@@ -59,10 +59,10 @@ def sendmonster(bot, config, connection, pkmn_loc):
 
         # set monster info
         #
-        pkmn_name = pkmn_loc[str(pkmn_id)]["name"].encode("utf-8")
+        pkmn_name = pkmn_loc[str(pkmn_id)]["name"]
         pkmn_despawn = datetime.datetime.fromtimestamp(int(message['disappear_time'])).strftime('%H:%M:%S')
 
-        logger.info("{}({}) until {} @ {},{}".format(pkmn_name.decode(), pkmn_id, pkmn_despawn, message['latitude'],
+        logger.info("{}({}) until {} @ {},{}".format(pkmn_name, pkmn_id, pkmn_despawn, message['latitude'],
                                                      message['longitude']))
 
         # calculate IV if encounting
