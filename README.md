@@ -1,5 +1,9 @@
 # MonsterBot
 
+![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)
+![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)
+![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)
+
 Telegram Bot for individual selection
 
 ## Installation Guide:
@@ -23,6 +27,13 @@ To upgrade the Database please stop all bots and webhooks and execute
 ```
 dbupdate.py
 ```
+
+### Upgrade from an older Version
+
+Save your config.ini  
+Delete your Repository and your virtual Environment  
+Clone the new Version and create a new virtual Environment  
+Copy your config.ini back
 
 ### Telegram
 
@@ -54,7 +65,7 @@ reorgdays=180         # Days for reorg inactive users
 dbname=tgbotdb        # Database name
 dbhost=127.0.0.1      # Database hostname
 dbport=3306           # Database port
-dbuser=rocketmapuser  # Database user
+dbuser=dbuser  # Database user
 dbpassword=xxxxxxxxx  # Database user password
 
 # startmsg=           # individual Startmessagefile default startmsg_<locale>.txt
@@ -89,19 +100,15 @@ You can also send the user a start message. Edit the files in "locales/startmsg_
    You can use this for the command list in Telegram ;-)
 
    The Users Pokemonlist is shared between all the bots connected to the same Database. So a user can switch between the bots by stopping the one and starting another one. He can now use the same List on multiple Bots.
-   
-2. **mtgbotwh.py** is the webhook for MAD. It sends the Pokemon to the users chatid.
 
-   A Venue message is send if no IV are present.
-   
-   If IV are present it send an message and a location.
-   
-   If a user set the IV level and no IV are present then no message is send. The webhook log this with `No message send to {}. SearchIV to low for Pokemon {}({})`
-
-3. **userreorg.py** reorganize users who have not used the bot for a long time. Days are set in the inifile.
+2. **userreorg.py** reorganize users who have not used the bot for a long time. Days are set in the inifile.
 
 ## Changes
 
 ### 13. Jan 2020
 
 Initial Version.
+
+### 08 Mar 2021
+
+change to Python3
