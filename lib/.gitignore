@@ -1,1 +1,7 @@
+# Logfiles go here
+#
+# Ignore everything in this directory
+*
+# Except this file
+!.gitignore
 !*.py

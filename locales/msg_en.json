@@ -1,5 +1,5 @@
 {
-	"1"  : "/start:activate Bot\n/stop:deactivate Bot\n/status:show if Bot is active\n/list:List of your Pokemon and Types\n/add <PokedexID> [IV]:add a Pokemon to your list. IV is not necessary, default 0.\n/del <PokedexID>:delete a Pokemon from your list\n/setiv <PokedexID> <IV>:set the min IV% for a Pokmeon\n/mydata:Shows your stored userdata\n/deleteall:Delete all your information and Lists (not recoverable)\nINFO:If IV = -1, Pokemon without IV are also reported.",
+	"1"  : "/start: activate Bot\n/stop: deactivate Bot\n/status: show if Bot is active\n/list: List of your Pokemon and Types\n/add <PokedexID> [IV]: add a Pokemon to your list. IV is not necessary, default 0.\n/del <PokedexID>: delete a Pokemon from your list\n/setiv <PokedexID> <IV>: set the min IV% for a Pokmeon\n/mydata: shows your stored userdata\n/deleteall: delete all your information and Lists (not recoverable)\n\nINFO:If IV = -1, Pokemon without IV are also reported.",
 	"2"  : "Your bot is activated",
 	"3"  : "Your bot is deactivated",
 	"4"  : "This Bot is aktiv",

@@ -3,7 +3,6 @@
 # Except this file
 !.gitignore
 !mtgbot.py
-!mtgbotwh.py
 !dbupdate.py
 !userreorg.py
 !*.example
@@ -11,8 +10,6 @@
 !README.md
 !LICENSE
 !requirements.txt
-!start_bot.sh
-!start_webhook.sh
 !locales
 !lib
 !log
