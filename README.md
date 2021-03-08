@@ -32,7 +32,7 @@ dbupdate.py
 
 Save your config.ini  
 Delete your Repository and your virtual Environment  
-Clone the new Version and create a new virtual Environment
+Clone the new Version and create a new virtual Environment  
 Copy your config.ini back
 
 ### Telegram
@@ -109,6 +109,6 @@ You can also send the user a start message. Edit the files in "locales/startmsg_
 
 Initial Version.
 
-### ??. ??? 2021
+### 08 Mar 2021
 
 change to Python3
