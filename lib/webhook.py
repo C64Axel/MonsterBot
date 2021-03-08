@@ -108,8 +108,9 @@ def sendmonster(bot, config, connection, pkmn_loc):
                             bot.send_venue(chat_id, message['latitude'], message['longitude'], venuetitle1, venuemsg1)
                             logger.info(
                                 "Send Telegram Message to {} Monster {}({})".format(chat_id, pkmn_name, pkmn_id))
-#                        except telebot.exception.BotWasBlockedError:
-#                            bot_was_blocked(connection, botid, chat_id)
+                        except telebot.apihelper.ApiTelegramException as e:
+                            if e.result_json['error_code'] == 403:
+                                bot_was_blocked(connection, botid, chat_id)
                         except (ConnectionAbortedError, ConnectionResetError, ConnectionRefusedError, ConnectionError):
                             pkmn_queue.put(message)
                             logger.warning("To many Requests. Sleep 1 sec.")
@@ -131,8 +132,9 @@ def sendmonster(bot, config, connection, pkmn_loc):
                             bot.send_location(chat_id, message['latitude'], message['longitude'])
                             logger.info(
                                 "Send Telegram IV Message to {} Monster {}({})".format(chat_id, pkmn_name, pkmn_id))
-#                        except telebot.exception.BotWasBlockedError:
-#                            bot_was_blocked(connection, botid, chat_id)
+                        except telebot.apihelper.ApiTelegramException as e:
+                            if e.result_json['error_code'] == 403:
+                                bot_was_blocked(connection, botid, chat_id)
                         except (ConnectionAbortedError, ConnectionResetError, ConnectionRefusedError, ConnectionError):
                             pkmn_queue.put(message)
                             logger.warning("To many Requests. Sleep 1 sec.")
