@@ -111,14 +111,12 @@ def sendmonster(bot, config, connection, pkmn_loc):
                         except telebot.apihelper.ApiTelegramException as e:
                             if e.result_json['error_code'] == 403:
                                 bot_was_blocked(connection, botid, chat_id)
-                        except (ConnectionAbortedError, ConnectionResetError, ConnectionRefusedError, ConnectionError):
-                            pkmn_queue.put(message)
-                            logger.warning("To many Requests. Sleep 1 sec.")
-                            sleep(1)
+                        except telebot.apihelper.ApiHTTPException as e:
+                            logger.error("Connection Error")
+                            logger.error("HTTP Error Code: {}".format(e.result))
                         except:
                             logger.error("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chat_id))
                             logger.error("Error: {}".format(sys.exc_info()[0]))
-                            raise
                     else:
                         logger.info(
                             "No message send to {}. SearchIV set but Monster {}({}) not encountered".format(chat_id,
@@ -135,15 +133,13 @@ def sendmonster(bot, config, connection, pkmn_loc):
                         except telebot.apihelper.ApiTelegramException as e:
                             if e.result_json['error_code'] == 403:
                                 bot_was_blocked(connection, botid, chat_id)
-                        except (ConnectionAbortedError, ConnectionResetError, ConnectionRefusedError, ConnectionError):
-                            pkmn_queue.put(message)
-                            logger.warning("To many Requests. Sleep 1 sec.")
-                            sleep(1)
+                        except telebot.apihelper.ApiHTTPException as e:
+                            logger.error("Connection Error")
+                            logger.error("HTTP Error Code: {}".format(e.result))
                         except:
                             logger.error("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chat_id))
                             logger.error("Error: {}".format(sys.exc_info()[0]))
-                            raise
-                    else:
+            else:
                         logger.info(
                             "No message send to {}. SearchIV to low for Monster {}({})".format(chat_id, pkmn_name,
                                                                                                pkmn_id))
