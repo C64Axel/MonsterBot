@@ -139,7 +139,7 @@ def sendmonster(bot, config, connection, pkmn_loc):
                         except:
                             logger.error("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chat_id))
                             logger.error("Error: {}".format(sys.exc_info()[0]))
-            else:
+                    else:
                         logger.info(
                             "No message send to {}. SearchIV to low for Monster {}({})".format(chat_id, pkmn_name,
                                                                                                pkmn_id))

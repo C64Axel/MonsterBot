@@ -31,8 +31,8 @@ dbupdate.py
 ### Upgrade from an older Version
 
 Save your config.ini  
-Delete your Repository and your virtual Environment  
-Clone the new Version and create a new virtual Environment  
+Delete your Repository, and your virtual Environment  
+Clone the new Version and create a new virtual Environment
 Copy your config.ini back
 
 ### Telegram
@@ -65,7 +65,7 @@ reorgdays=180         # Days for reorg inactive users
 dbname=tgbotdb        # Database name
 dbhost=127.0.0.1      # Database hostname
 dbport=3306           # Database port
-dbuser=dbuser  # Database user
+dbuser=dbuser         # Database user
 dbpassword=xxxxxxxxx  # Database user password
 
 # startmsg=           # individual Startmessagefile default startmsg_<locale>.txt
@@ -97,9 +97,11 @@ You can also send the user a start message. Edit the files in "locales/startmsg_
    deleteall - : delete all your data, no recover
    ```
    
-   You can use this for the command list in Telegram ;-)
+   You can use this for the command list in Telegram ;-)  
 
-   The Users Pokemonlist is shared between all the bots connected to the same Database. So a user can switch between the bots by stopping the one and starting another one. He can now use the same List on multiple Bots.
+   The Users Pokemonlist is shared between all the bots connected to the same Database. So a user can switch between the bots by stopping the one and starting another one. He can now use the same List on multiple Bots.  
+   Just start mtgbot.py with Parameter -c < CONFIGFILE >
+
 
 2. **userreorg.py** reorganize users who have not used the bot for a long time. Days are set in the inifile.
 
@@ -109,6 +111,6 @@ You can also send the user a start message. Edit the files in "locales/startmsg_
 
 Initial Version.
 
-### 08 Mar 2021
+### 08. Mar 2021
 
 change to Python3
