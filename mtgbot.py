@@ -2,6 +2,7 @@ import telebot
 
 import pymysql.cursors
 import json
+import argparse
 
 from configobj import ConfigObj
 from threading import Thread
@@ -12,11 +13,16 @@ from lib.dbcheck import db_need_update
 from lib.logging import logger
 from lib.webhook import reorg_duplicate, sendmonster, WebhookHandler
 
+##################
+# parsing arguments
+parser = argparse.ArgumentParser()
+parser.add_argument("-c", "--cfile", help="configfile", type=str, default="config.ini")
+args = parser.parse_args()
 
 ##################
 # read inifile
 try:
-    config = ConfigObj("config.ini")
+    config = ConfigObj(args.cfile)
     apitoken = config.get('token')
     db = config['dbname']
     dbhost = config['dbhost']
@@ -29,7 +35,6 @@ try:
 except:
     logger.error("Error in config.ini")
     quit()
-
 
 ##################
 # connect to database
@@ -47,18 +52,15 @@ except:
     logger.error("can not connect to database")
     quit()
 
-
 ##################
 # check DB-Version
 if db_need_update(connection.cursor()):
     logger.error("Your DB-Version is to low. Please start dbupdate.py first")
     quit()
 
-
 ##################
 # enable middleware Handler
 telebot.apihelper.ENABLE_MIDDLEWARE = True
-
 
 ##################
 # get bot information
@@ -187,7 +189,8 @@ def handle_status(message):
 @bot.message_handler(commands=['mydata'])
 def handle_mydata(message):
     if bot.userok:
-        cursor.execute("select botid,username,vorname,nachname,chatid from user where chatid = '%s'" % (message.chat.id))
+        cursor.execute(
+            "select botid,username,vorname,nachname,chatid from user where chatid = '%s'" % (message.chat.id))
         result = cursor.fetchall()
         if result:
             for row in result:
@@ -274,7 +277,8 @@ def handle_del(message):
 
         try:
             pkname = pkmn_loc[str(pkmnid)]["name"]
-            if cursor.execute("delete from userassign where chatid = '%s' and pkmnid = '%s'" % (message.chat.id, pkmnid)):
+            if cursor.execute(
+                    "delete from userassign where chatid = '%s' and pkmnid = '%s'" % (message.chat.id, pkmnid)):
                 sendtelegram(message.chat.id, pkname + msg_loc["12"])
             else:
                 sendtelegram(message.chat.id, pkname + msg_loc["13"])
@@ -300,7 +304,7 @@ def handle_setiv(message):
         try:
             pkname = pkmn_loc[str(pkmnid)]["name"]
             if cursor.execute("update userassign set iv = '%s' where chatid = '%s' and pkmnid = '%s'" % (
-            pkmniv, message.chat.id, pkmnid)):
+                    pkmniv, message.chat.id, pkmnid)):
                 sendtelegram(message.chat.id, msg_loc["15"].format(str(pkmniv), pkname))
             else:
                 sendtelegram(message.chat.id, pkname + msg_loc["13"])
@@ -329,15 +333,15 @@ pkmn_loc = json.load(open("locales/monster_" + locale + ".json"))
 msg_loc = json.load(open("locales/msg_" + locale + ".json"))
 
 logger.info("Bot {} started".format(botname))
+
 t1 = Thread(name='sendmonster', target=sendmonster, daemon=True, args=(bot, config, connection, pkmn_loc))
 t1.start()
 
 t2 = Thread(name='reorgdup', target=reorg_duplicate, daemon=True, args=())
 t2.start()
 
-httpd = HTTPServer(("", whport), WebhookHandler )
+httpd = HTTPServer(("", whport), WebhookHandler)
 httpd.allow_reuse_address = True
-
 t3 = Thread(name='webhook', target=start_webhook, daemon=True, args=())
 t3.start()
 
