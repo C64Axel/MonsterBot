@@ -19,6 +19,9 @@
 	"18" : "",
 	"19" : "Your ChatID was blockt by the Administrator",
 	"20" : "All your Data was deleted. Bye",
-	"21" : "Userbane: {}\nFirstname: {}\nSurname: {}\nChatid: {}",
-	"22" : "No Userdata found"
+	"21" : "Bot: {}\nUsernane: {}\nFirstname: {}\nSurname: {}\nChatid: {}\nlast Pos: {}:{}\nDist: {} miles",
+	"22" : "No Userdata found",
+	"23" : "Can not save your position",
+	"24" : "Please give me a distance after ",
+	"25" : "Your distance was set to {} km"
 }

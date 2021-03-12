@@ -91,17 +91,21 @@ You can also send the user a start message. Edit the files in "locales/startmsg_
    add - <PokedexID> [IV]: add a Pokemon to the List. IV is not necessary, default 0
    del - <PokedexID>: delete a Pokemon from the List
    setiv - <PokedexID> <IV>: set the IV% from which reportet
+   setdist - : set the distance for Pokemon, 0 disable
    stop - : deaktivate the Bot
    start - : aktivate the Bot
-   mydata - : show your stored personal data
+   mydata - : show your stored data like last position and distance
    deleteall - : delete all your data, no recover
+   
    ```
    
    You can use this for the command list in Telegram ;-)  
 
    The Users Pokemonlist is shared between all the bots connected to the same Database. So a user can switch between the bots by stopping the one and starting another one. He can now use the same List on multiple Bots.  
-   Just start mtgbot.py with Parameter -c < CONFIGFILE >
-
+   Just start mtgbot.py with Parameter -c < CONFIGFILE ><p>  
+   If a user only wants pokemon within a radius, he can share a location via telegram and set a radius with /setdist  
+   /setdist 0 disable this function
+   
 
 2. **userreorg.py** reorganize users who have not used the bot for a long time. Days are set in the inifile.
 
@@ -114,3 +118,7 @@ Initial Version.
 ### 08. Mar 2021
 
 change to Python3
+
+### 12 . Mar 2021
+
+add distance for Pokemon

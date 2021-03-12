@@ -1,7 +1,7 @@
 #! /usr/bin/python
 
 import pymysql.cursors
-import sys
+import argparse
 
 from configobj import ConfigObj
 
@@ -12,9 +12,13 @@ def migrate_db():
     version = check_db_version(cursor)
     print("Old Version {}".format(version))
 
-    #	if version < 1:
-    #		cursor.execute("alter table `user` drop column 'paused'")
-    #		cursor.execute("update dbversion set version = '1'")
+    if version < 1:
+        cursor.execute("alter table `user` add column lat double default 0")
+        cursor.execute("alter table `user` add column lon double default 0")
+        cursor.execute("alter table `user` add column dist double default 0")
+        cursor.execute("update dbversion set version = '1'")
+
+
 
     version = check_db_version(cursor)
     print("New Version {}".format(version))
@@ -23,10 +27,15 @@ def migrate_db():
 
 ############# MAIN ################
 
+##################
+# parsing arguments
+parser = argparse.ArgumentParser()
+parser.add_argument("-c", "--cfile", help="configfile", type=str, default="config.ini")
+args = parser.parse_args()
+
 # read inifile
 try:
-    inifile = sys.argv[1]
-    config = ConfigObj(inifile)
+    config = ConfigObj(args.cfile)
     token = config.get('token')
     db = config['dbname']
     dbhost = config['dbhost']

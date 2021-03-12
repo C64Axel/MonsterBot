@@ -19,6 +19,9 @@
   "18" : "",
   "19" : "Deine ChatID wurde vom Administrator gesperrt",
   "20" : "Alle deine Daten wurden gelöscht. Tschüss",
-  "21" : "Benutzer: {}\nVorname: {}\nNachname: {}\nChatid: {}",
-  "22" : "Keine Benutzerdaten gefunden"
+  "21" : "Bot: {}\nBenutzer: {}\nVorname: {}\nNachname: {}\nChatid: {}\nletzte Pos: {}:{}\nEntfernung: {} km",
+  "22" : "Keine Benutzerdaten gefunden",
+  "23" : "Konnte deine Position nicht speichern",
+  "24" : "Bitte gib mir eine Entfernung nach ",
+  "25" : "Deine Entfernung wurde auf {} km gesetzt"
 }

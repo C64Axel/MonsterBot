@@ -1,4 +1,4 @@
 pyTelegramBotAPI~=3.7.5; python_version > '3'
 configobj~=5.0.6; python_version > '3'
-PyMySQL~=0.8.1; python_version > '3'
-geocoder~=1.38.1; python_version > '3'
+PyMySQL~=1.0.2; python_version > '3'
+geopy~=2.1.0; python_version > '3'

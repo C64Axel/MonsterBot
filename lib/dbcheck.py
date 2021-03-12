@@ -1,4 +1,4 @@
-dbversion = 0
+dbversion = 1
 
 def check_db_version(cursor):
         cursor.execute("select version from dbversion")
