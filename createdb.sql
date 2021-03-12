@@ -13,6 +13,9 @@ CREATE TABLE `user` (
 	`vorname` varchar(45) DEFAULT NULL,
 	`nachname` varchar(45) DEFAULT NULL,
 	`chatid` varchar(45) NOT NULL,
+	`lat` double DEFAULT 0,
+	`lon` double DEFAULT 0,
+	`dist` double DEFAULT 0,
 	`lastchange` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`chatid`,`botid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -3,6 +3,8 @@ import telebot
 import pymysql.cursors
 import json
 import argparse
+import sys
+import io
 
 from configobj import ConfigObj
 from threading import Thread
@@ -82,20 +84,22 @@ except:
 ##################
 #
 def sendtelegram(chatid, msg):
-    try:
-        splitted_text = telebot.util.split_string(msg, 4096)
-        for text in splitted_text:
-            try:
-                bot.send_message(chatid, text, parse_mode="markdown")
-            except (ConnectionAbortedError, ConnectionResetError, ConnectionRefusedError, ConnectionError):
-                logger.warning("ConnectionError - Sending again after 5 seconds!!!")
-                time.sleep(5)
-                bot.send_message(chatid, text, parse_mode="markdown")
-            except:
-                raise
+#    try:
+    splitted_text = telebot.util.split_string(msg, 4096)
+    for text in splitted_text:
+        try:
+            bot.send_message(chatid, text, parse_mode="markdown")
+        except telebot.apihelper.ApiHTTPException as e:
+            logger.warning("ConnectionError - Sending again after 5 seconds!!!")
+            logger.warning("HTTP Error Code: {}".format(e.result))
+            time.sleep(5)
+            bot.send_message(chatid, text, parse_mode="markdown")
+        except:
+            logger.error("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chatid))
+            logger.error("Error: {}".format(sys.exc_info()[0]))
 
-    except:
-        logger.error("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chatid))
+#    except:
+#        logger.error("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chatid))
 
 
 ##################
@@ -118,6 +122,34 @@ def log_message(bot_instance, message):
 
 
 ##################
+# Handle location
+@bot.message_handler(content_types=['location'])
+def handle_location(message):
+    if bot.userok:
+        try:
+            cursor.execute("update user set lat = '%s', lon = '%s' where chatid = '%s'" % (message.location.latitude,message.location.longitude,message.chat.id))
+        except:
+            sendtelegram(message.chat.id, msg_loc["23"])
+
+
+##################
+# Handle location
+@bot.message_handler(commands=['setdist'])
+def handle_distance(message):
+    if bot.userok:
+        try:
+            dist = float(message.text.split(" ")[1])
+        except:
+            sendtelegram(message.chat.id, msg_loc["24"] + "/dist")
+            return
+        try:
+            cursor.execute("update user set dist = '%s' where chatid = '%s'" % (dist,message.chat.id))
+            sendtelegram(message.chat.id, msg_loc["25"].format(dist))
+        except:
+            sendtelegram(message.chat.id, msg_loc["23"])
+
+
+##################
 # Handle start
 @bot.message_handler(commands=['start'])
 def handle_start(message):
@@ -135,7 +167,7 @@ def handle_start(message):
         except:
             pass
         try:  # insert users information and the bot id
-            cursor.execute("insert into user values ('%s','%s','%s','%s','%s',current_timestamp)" % (
+            cursor.execute("insert into user values ('%s','%s','%s','%s','%s',current_timestamp, 0, 0, 0)" % (
                 botid, message.chat.username, message.chat.first_name, message.chat.last_name, message.chat.id))
         except:
             pass
@@ -190,13 +222,13 @@ def handle_status(message):
 def handle_mydata(message):
     if bot.userok:
         cursor.execute(
-            "select botid,username,vorname,nachname,chatid from user where chatid = '%s'" % (message.chat.id))
+            "select botid,username,vorname,nachname,chatid,lat,lon,dist from user where chatid = '%s'" % (message.chat.id))
         result = cursor.fetchall()
         if result:
             for row in result:
                 cursor.execute("select botname from bot where botid = '%s'" % (row[0]))
-                botname = cursor.fetchone()
-                msg = str(msg_loc["21"].format(row[1], row[2], row[3], row[4]))
+                botname = cursor.fetchone()[0]
+                msg = str(msg_loc["21"].format(botname.replace("_","\_"), row[1], row[2], row[3], row[4], row[5], row[6], row[7]))
                 sendtelegram(message.chat.id, msg)
         else:
             sendtelegram(message.chat.id, msg_loc["22"])

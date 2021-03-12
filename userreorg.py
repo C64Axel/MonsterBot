@@ -1,12 +1,26 @@
 import pymysql.cursors
 import sys
+import argparse
 
 from configobj import ConfigObj
 
 from lib.dbcheck import db_need_update
 from lib.logging import logger
 
-##### MAIN #####
+
+##################
+# parsing arguments
+parser = argparse.ArgumentParser()
+parser.add_argument("-d", "--dry", help="dry run", action='store_true')
+args = parser.parse_args()
+
+dryrun = 0
+try:
+    if args.dry:
+        dryrun = 1
+        logger.info("Dryrun")
+except:
+    pass
 
 # read inifile
 #
@@ -22,14 +36,6 @@ except:
     logger.error("Inifile not given or missing parameter")
     quit()
 
-dryrun = 0
-try:
-    dryrun = sys.argv[1]
-    if dryrun == '-n':
-        dryrun = 1
-        logger.info("Dryrun")
-except:
-    pass
 
 # connect to database
 #
