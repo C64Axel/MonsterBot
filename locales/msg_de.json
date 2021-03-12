@@ -1,5 +1,5 @@
 {
-  "1"  : "/start: aktiviert den Bot\n/stop: deaktiviert den Bot\n/status: zeigt den Status des Bots\n/list: Liste der eingetragenen Pokemon und Typen\n/add <PokedexID> [IV]: fügt ein Pokemon zur Liste hinzu. IV wird nicht benötigt, default 0.\n/del <PokedexID>: löscht ein Pokemon von der Liste\n/setiv <PokedexID> <IV>: setzt die min IV% für ein Pokmeon\n/mydata: zeigt alle gespeicherten Benutzerinformationen\n/deleteall: löscht alle Benutzerinformationen und Listen (nicht wiederherstellbar)\n\nINFO:Wenn als IV = -1 angegeben wird werden auch Pokemon ohne IV gemeldet.",
+  "1"  : "/start: aktiviert den Bot\n/stop: deaktiviert den Bot\n/status: zeigt den Status des Bots\n/list: Liste der eingetragenen Pokemon und Typen\n/add <PokedexID> [IV]: fügt ein Pokemon zur Liste hinzu. IV wird nicht benötigt, default 0.\n/del <PokedexID>: löscht ein Pokemon von der Liste\n/setiv <PokedexID> <IV>: setzt die min IV% für ein Pokmeon\n/setdist: setzt die max Entfernung zum Pokemon. 0 deaktiviert diese Funktion\n/mydata: zeigt alle gespeicherten Benutzerinformationen\n/deleteall: löscht alle Benutzerinformationen und Listen (nicht wiederherstellbar)\n\nINFO:Wenn als IV = -1 angegeben wird werden auch Pokemon ohne IV gemeldet.",
   "2"  : "Dein Bot ist aktiviert",
   "3"  : "Dein Bot ist deaktiviert",
   "4"  : "Dieser Bot ist aktiv",
