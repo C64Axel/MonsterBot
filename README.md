@@ -119,6 +119,6 @@ Initial Version.
 
 change to Python3
 
-### ?? . Mar 2021
+### 12 . Mar 2021
 
 add distance for Pokemon
