@@ -23,5 +23,5 @@
   "22" : "Keine Benutzerdaten gefunden",
   "23" : "Konnte deine Position nicht speichern",
   "24" : "Bitte gib mir eine Entfernung nach ",
-  "25" : "Deine Entfernung wurde auf {} km gesetzt"
+  "25" : "Deine Entfernung wurde auf {} km gesetzt.\nBitte vergiss nicht deinen Standort zu setzen."
 }
