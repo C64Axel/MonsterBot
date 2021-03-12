@@ -23,5 +23,5 @@
 	"22" : "No Userdata found",
 	"23" : "Can not save your position",
 	"24" : "Please give me a distance after ",
-	"25" : "Your distance was set to {} km"
+	"25" : "Your distance was set to {} km.\nPlease don't forget to send your Position."
 }
