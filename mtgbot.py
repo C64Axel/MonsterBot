@@ -133,23 +133,6 @@ def handle_location(message):
 
 
 ##################
-# Handle location
-@bot.message_handler(commands=['setdist'])
-def handle_distance(message):
-    if bot.userok:
-        try:
-            dist = float(message.text.split(" ")[1])
-        except:
-            sendtelegram(message.chat.id, msg_loc["24"] + "/dist")
-            return
-        try:
-            cursor.execute("update user set dist = '%s' where chatid = '%s'" % (dist,message.chat.id))
-            sendtelegram(message.chat.id, msg_loc["25"].format(dist))
-        except:
-            sendtelegram(message.chat.id, msg_loc["23"])
-
-
-##################
 # Handle start
 @bot.message_handler(commands=['start'])
 def handle_start(message):
@@ -250,12 +233,22 @@ def handle_deleteall(message):
 @bot.message_handler(commands=['list'])
 def handle_list(message):
     if bot.userok:
-        cursor.execute("select pkmnid,iv from userassign where chatid = '%s'" % (message.chat.id))
+
+        try:
+            pkmnid = message.text.split(" ")[1]
+        except:
+            pkmnid = False
+
+        if pkmnid:
+            cursor.execute("select pkmnid,iv,level from userassign where chatid = '%s' and pkmnid = '%s'" % (message.chat.id,pkmnid))
+        else:
+            cursor.execute("select pkmnid,iv,level from userassign where chatid = '%s'" % (message.chat.id))
+
         result_p = cursor.fetchall()
 
         msg = str(msg_loc["16"]) + "\n"
         for row in result_p:
-            msg = msg + "{} : {} : {}\n".format(row[0], pkmn_loc[str(row[0])]["name"], row[1])
+            msg = msg + "{} : {} : {} : {}\n".format(row[0], pkmn_loc[str(row[0])]["name"], row[1], row[2])
         while len(msg) > 0:  # cut message to telegram max messagesize
             msgcut = msg[:4096].rsplit("\n", 1)[0]
             sendtelegram(message.chat.id, msgcut)
@@ -288,7 +281,7 @@ def handle_add(message):
         try:
             pkname = pkmn_loc[str(pkmnid)]["name"]
             try:
-                cursor.execute("insert into userassign values ('%s','%s','%s')" % (pkmnid, message.chat.id, pkmniv))
+                cursor.execute("insert into userassign values ('%s','%s','%s', '0')" % (pkmnid, message.chat.id, pkmniv))
                 sendtelegram(message.chat.id, pkname + msg_loc["8"])
             except:
                 sendtelegram(message.chat.id, pkname + msg_loc["9"])
@@ -332,6 +325,8 @@ def handle_setiv(message):
 
         if pkmniv > 100:
             pkmniv = 100
+        elif pkmniv < -1:
+            pkmniv = -1
 
         try:
             pkname = pkmn_loc[str(pkmnid)]["name"]
@@ -342,6 +337,51 @@ def handle_setiv(message):
                 sendtelegram(message.chat.id, pkname + msg_loc["13"])
         except:
             sendtelegram(message.chat.id, str(pkmnid) + msg_loc["10"])
+
+
+##################
+# Handle setlvl
+@bot.message_handler(commands=['setlvl'])
+def handle_setlvl(message):
+    if bot.userok:
+        try:
+            pkmnid = int(message.text.split(" ")[1])
+            pkmnlvl = int(message.text.split(" ")[2])
+        except:
+            sendtelegram(message.chat.id, msg_loc["26"])
+            return
+
+        if pkmnlvl > 35:
+            pkmnlvl = 35
+        elif pkmnlvl < 0:
+            pkmnlvl = 0
+
+        try:
+            pkname = pkmn_loc[str(pkmnid)]["name"]
+            if cursor.execute("update userassign set level = '%s' where chatid = '%s' and pkmnid = '%s'" % (
+                    pkmnlvl, message.chat.id, pkmnid)):
+                sendtelegram(message.chat.id, msg_loc["27"].format(str(pkmnlvl), pkname))
+            else:
+                sendtelegram(message.chat.id, pkname + msg_loc["13"])
+        except:
+            sendtelegram(message.chat.id, str(pkmnid) + msg_loc["10"])
+
+
+##################
+# Handle location
+@bot.message_handler(commands=['setdist'])
+def handle_distance(message):
+    if bot.userok:
+        try:
+            dist = float(message.text.split(" ")[1])
+        except:
+            sendtelegram(message.chat.id, msg_loc["24"] + "/dist")
+            return
+        try:
+            cursor.execute("update user set dist = '%s' where chatid = '%s'" % (dist,message.chat.id))
+            sendtelegram(message.chat.id, msg_loc["25"].format(dist))
+        except:
+            sendtelegram(message.chat.id, msg_loc["23"])
 
 
 ##################
