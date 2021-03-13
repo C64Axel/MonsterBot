@@ -126,4 +126,4 @@ add distance for Pokemon
 
 ### 13. Mar 2021
 
-ad level for Pokemon
+add level for Pokemon

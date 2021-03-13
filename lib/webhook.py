@@ -118,7 +118,7 @@ def sendmonster(bot, config, connection, pkmn_loc):
                         dist_ok = False
 
                 # check level
-                if message['pokemon_level'] != '??':
+                if message['pokemon_level'] == '??':
                     level_ok = True
                 elif int(message['pokemon_level']) >= level:
                     level_ok = True
