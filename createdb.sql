@@ -35,6 +35,7 @@ CREATE TABLE `userassign` (
 	`pkmnid` int(11) NOT NULL,
 	`chatid` varchar(45) NOT NULL,
 	`iv` int(11) NOT NULL DEFAULT '0',
+	`level` int(11) NOT NULL DEFAULT '0',
 	PRIMARY KEY (`pkmnid`,`chatid`),
 	KEY `pkmnid_idx` (`pkmnid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

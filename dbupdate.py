@@ -17,7 +17,9 @@ def migrate_db():
         cursor.execute("alter table `user` add column lon double default 0")
         cursor.execute("alter table `user` add column dist double default 0")
         cursor.execute("update dbversion set version = '1'")
-
+    if version < 2:
+        cursor.execute("alter table `userassign` add column level int default 0")
+        cursor.execute("update dbversion set version = '2'")
 
 
     version = check_db_version(cursor)

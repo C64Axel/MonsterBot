@@ -1,5 +1,5 @@
 {
-  "1"  : "/start: aktiviert den Bot\n/stop: deaktiviert den Bot\n/status: zeigt den Status des Bots\n/list: Liste der eingetragenen Pokemon und Typen\n/add <PokedexID> [IV]: fügt ein Pokemon zur Liste hinzu. IV wird nicht benötigt, default 0.\n/del <PokedexID>: löscht ein Pokemon von der Liste\n/setiv <PokedexID> <IV>: setzt die min IV% für ein Pokmeon\n/setdist: setzt die max Entfernung zum Pokemon. 0 deaktiviert diese Funktion\n/mydata: zeigt alle gespeicherten Benutzerinformationen\n/deleteall: löscht alle Benutzerinformationen und Listen (nicht wiederherstellbar)\n\nINFO:Wenn als IV = -1 angegeben wird werden auch Pokemon ohne IV gemeldet.",
+  "1"  : "/start: aktiviert den Bot\n/stop: deaktiviert den Bot\n/status: zeigt den Status des Bots\n/list [[PokedexID]] Liste der eingetragenen Pokemon und Werte\n/add <PokedexID> [[IV]]: fügt ein Pokemon zur Liste hinzu. IV wird nicht benötigt, default 0.\n/del <PokedexID>: löscht ein Pokemon von der Liste\n/setiv <PokedexID> <IV>: setzt die min IV% für ein Pokmeon\n/setlvl <PokedexID> <LEVEL>: setzt den min Level für ein Pokemon\n/setdist: setzt die max Entfernung zum Pokemon. 0 deaktiviert diese Funktion\n/mydata: zeigt alle gespeicherten Benutzerinformationen\n/deleteall: löscht alle Benutzerinformationen und Listen (nicht wiederherstellbar)\n\nINFO:Wenn als IV = -1 angegeben wird werden auch Pokemon ohne IV gemeldet.",
   "2"  : "Dein Bot ist aktiviert",
   "3"  : "Dein Bot ist deaktiviert",
   "4"  : "Dieser Bot ist aktiv",
@@ -13,8 +13,8 @@
   "12" : " wurde von der Liste gelöscht",
   "13" : " ist nicht auf deiner Liste",
   "14" : "Bitte gib mir eine PokedexId und ein IV nach /setiv",
-  "15" : "Setze IV {}% für Pokemon {}",
-  "16" : "Deine Pokemonliste (ID:NAME:IV)",
+  "15" : "Setze IV > {}% für Pokemon {}",
+  "16" : "Deine Pokemonliste (ID:NAME:IV:LEVEL)",
   "17" : " unbekannt. Schau mal bei /help nach",
   "18" : "",
   "19" : "Deine ChatID wurde vom Administrator gesperrt",
@@ -23,5 +23,7 @@
   "22" : "Keine Benutzerdaten gefunden",
   "23" : "Konnte deine Position nicht speichern",
   "24" : "Bitte gib mir eine Entfernung nach ",
-  "25" : "Deine Entfernung wurde auf {} km gesetzt.\nBitte vergiss nicht deinen Standort zu setzen."
+  "25" : "Deine Entfernung wurde auf {} km gesetzt.\nBitte vergiss nicht deinen Standort zu setzen.",
+  "26" : "Bitte gib mir eine PokedexId und ein Level nach /setlvl",
+  "27" : "Setze Level > {} für Pokemon {}"
 }

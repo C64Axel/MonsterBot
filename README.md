@@ -90,8 +90,9 @@ You can also send the user a start message. Edit the files in "locales/startmsg_
    list - : list your Pokemon and Type List
    add - <PokedexID> [IV]: add a Pokemon to the List. IV is not necessary, default 0
    del - <PokedexID>: delete a Pokemon from the List
-   setiv - <PokedexID> <IV>: set the IV% from which reportet
+   setiv - <PokedexID> <IV>: set the min IV% for Pokemon, -1 ignore IV
    setdist - : set the distance for Pokemon, 0 disable
+   setlvl - : set the min level for Pokemon
    stop - : deaktivate the Bot
    start - : aktivate the Bot
    mydata - : show your stored data like last position and distance
@@ -122,3 +123,7 @@ change to Python3
 ### 12 . Mar 2021
 
 add distance for Pokemon
+
+### 13. Mar 2021
+
+ad level for Pokemon

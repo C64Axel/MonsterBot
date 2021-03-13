@@ -1,5 +1,5 @@
 {
-	"1"  : "/start: activate Bot\n/stop: deactivate Bot\n/status: show if Bot is active\n/list: List of your Pokemon and Types\n/add <PokedexID> [IV]: add a Pokemon to your list. IV is not necessary, default 0.\n/del <PokedexID>: delete a Pokemon from your list\n/setiv <PokedexID> <IV>: set the min IV% for a Pokmeon\n/setdist: sets the max distance to the pokemon. 0 disables this function\n/mydata: shows your stored userdata\n/deleteall: delete all your information and Lists (not recoverable)\n\nINFO:If IV = -1, Pokemon without IV are also reported.",
+	"1"  : "/start: activate Bot\n/stop: deactivate Bot\n/status: show if Bot is active\n/list [[PokedexID]]: List of your Pokemon and values\n/add <PokedexID> [[IV]]: add a Pokemon to your list. IV is not necessary, default 0.\n/del <PokedexID>: delete a Pokemon from your list\n/setiv <PokedexID> <IV>: set the min IV% for a Pokmeon\n/setlvl <PokedexID> <LEVEL>: set the min level for a Pokmeon\n/setdist: sets the max distance to the pokemon. 0 disables this function\n/mydata: shows your stored userdata\n/deleteall: delete all your information and Lists (not recoverable)\n\nINFO:If IV = -1, Pokemon without IV are also reported.",
 	"2"  : "Your bot is activated",
 	"3"  : "Your bot is deactivated",
 	"4"  : "This Bot is aktiv",
@@ -13,8 +13,8 @@
 	"12" : " deleted from your list",
 	"13" : " is not on your list",
 	"14" : "Please give me a PokedexId and IV after /setiv",
-	"15" : "Setting IV {}% to Pokemon {}",
-	"16" : "Your Pokemonlist (ID:NAME:IV)",
+	"15" : "Setting IV > {}% to Pokemon {}",
+	"16" : "Your Pokemonlist (ID:NAME:IV:LEVEL)",
 	"17" : " unknown. See /help",
 	"18" : "",
 	"19" : "Your ChatID was blockt by the Administrator",
@@ -23,5 +23,7 @@
 	"22" : "No Userdata found",
 	"23" : "Can not save your position",
 	"24" : "Please give me a distance after ",
-	"25" : "Your distance was set to {} km.\nPlease don't forget to send your Position."
+	"25" : "Your distance was set to {} km.\nPlease don't forget to send your Position.",
+	"26" : "Please give me a PokedexId and level after /setlvl",
+	"27" : "Setting level > {} to Pokemon {}"
 }

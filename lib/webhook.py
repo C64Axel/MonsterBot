@@ -92,7 +92,7 @@ def sendmonster(bot, config, connection, pkmn_loc):
         # no blocked chat id
         #
         connection.ping(reconnect=True)
-        cursor.execute("select chatid,iv from userassign where pkmnid = '%s' and \
+        cursor.execute("select chatid,iv,level from userassign where pkmnid = '%s' and \
 				chatid not in (select chatid from userblock) and \
 				chatid in (select chatid from user where botid = '%s')" % (pkmn_id, botid))
         result_pkmn = cursor.fetchall()
@@ -100,7 +100,7 @@ def sendmonster(bot, config, connection, pkmn_loc):
         if len(result_pkmn) > 0:
             # send monster message to all
             #
-            for chat_id, iv in result_pkmn:
+            for chat_id, iv, level in result_pkmn:
 
                 # get the user details
                 cursor.execute("select lat,lon,dist from user where chatid = '%s'" % (chat_id))
@@ -118,7 +118,12 @@ def sendmonster(bot, config, connection, pkmn_loc):
                         dist_ok = False
 
                 # check level
-                level_ok = True
+                if message['pokemon_level'] != '??':
+                    level_ok = True
+                elif int(message['pokemon_level']) >= level:
+                    level_ok = True
+                else:
+                    level_ok = False
 
                 if dist_ok and level_ok:
                     if message['iv'] == "None":
@@ -126,7 +131,8 @@ def sendmonster(bot, config, connection, pkmn_loc):
                             venuetitle1 = textsub(venuetitle, message)
                             venuemsg1 = textsub(venuemsg, message)
                             try:
-                                bot.send_venue(chat_id, message['latitude'], message['longitude'], venuetitle1, venuemsg1)
+                                bot.send_venue(chat_id, message['latitude'], message['longitude'], venuetitle1,
+                                               venuemsg1)
                                 logger.info(
                                     "Send Telegram Message to {} Monster {}({})".format(chat_id, pkmn_name, pkmn_id))
                             except telebot.apihelper.ApiTelegramException as e:
@@ -141,8 +147,8 @@ def sendmonster(bot, config, connection, pkmn_loc):
                         else:
                             logger.info(
                                 "No message send to {}. SearchIV set but Monster {}({}) not encountered".format(chat_id,
-                                                                                                            pkmn_name,
-                                                                                                            pkmn_id))
+                                                                                                                pkmn_name,
+                                                                                                                pkmn_id))
                     elif message['iv'] >= iv:
                         ivmsg1 = textsub(ivmsg, message)
                         try:
@@ -162,7 +168,7 @@ def sendmonster(bot, config, connection, pkmn_loc):
                         else:
                             logger.info(
                                 "No message send to {}. SearchIV to low for Monster {}({})".format(chat_id, pkmn_name,
-                                                                                                       pkmn_id))
+                                                                                                   pkmn_id))
 
 
 ##################
