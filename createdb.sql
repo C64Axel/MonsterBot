@@ -44,4 +44,4 @@ CREATE TABLE `dbversion` (
 	`version` int(11) NOT NULL DEFAULT '0',
 	PRIMARY KEY (`version`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-insert into dbversion values ( "0" );
+insert into dbversion values ( "2" );
