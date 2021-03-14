@@ -15,5 +15,11 @@ dbpassword=xxxxxxxxx  # Database user password
 venuetitle="<pkmn>(<pkmnid>)"
 venuemsg="until <despawn>"
 
-ivmsg="<pkmn>(<pkmnid>)\nIV:<iv> CP:<cp> L:<lvl>\nA:<atk>/D:<def>/S:<sta>\nuntil <despawn>"
+ivmsg="<pkmn>(<pkmnid>)\nIV:<iv> CP:<cp> L:<lvl>\nA:<atk>/D:<def>/S:<sta>\nuntil <despawn>\n<postcode> <town>\n<road>"
 
+nominatim=False                 # enable Nominatim
+nominatim_scheme=""             # Schema for Nominatim, default https
+nominatim_url=""                # Nominatim URL, default nominatim.openstreetmap.org
+                                # use your own like '<user>:<password>@your.FQDN.domain'
+gmaps=False                     # enable Google
+gmaps_apikey=""                 # Google API Key

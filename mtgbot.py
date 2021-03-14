@@ -10,10 +10,13 @@ from configobj import ConfigObj
 from threading import Thread
 from time import time
 from http.server import HTTPServer
+from geopy.geocoders import Nominatim, GoogleV3
+
 
 from lib.dbcheck import db_need_update
 from lib.logging import logger
 from lib.webhook import reorg_duplicate, sendmonster, WebhookHandler
+
 
 ##################
 # parsing arguments
@@ -34,8 +37,22 @@ try:
     locale = config.get('locale', 'de')
     whport = int(config.get('port', '6000'))
     invstartmsg = config.get('startmsg', "locales/startmsg_" + locale + ".txt")
+    nominatim = config.as_bool('nominatim')
+    nominatim_scheme = config.get('nominatim_scheme', 'https')
+    nominatim_url = config.get('nominatim_url', 'nominatim.openstreetmap.org')
+    gmaps = config.as_bool('gmaps')
+    gmaps_apikey = config.get('gmaps_apikey', False)
 except:
     logger.error("Error in config.ini")
+    quit()
+
+##################
+# check some parameters
+if nominatim and gmaps:
+    logger.error("please use only one geo provider")
+    quit()
+if gmaps and not gmaps_apikey:
+    logger.error("please set your gmaps API Key")
     quit()
 
 ##################
@@ -79,6 +96,18 @@ try:
 except:
     logger.error("Error in Telegram. Can not find Botname and ID")
     quit()
+
+##################
+# set geoprovider
+if nominatim:
+    geoprovider = Nominatim(user_agent='Monsterbot', scheme=nominatim_scheme, domain=nominatim_url)
+    logger.info("Using Nominatim for geolocation")
+elif gmaps:
+    geoprovider = GoogleV3(api_key=gmaps_apikey)
+    logger.info("Using Google for geolocation")
+else:
+    geoprovider = False
+    logger.info("Geolocation is disabled")
 
 
 ##################
@@ -406,7 +435,7 @@ msg_loc = json.load(open("locales/msg_" + locale + ".json"))
 
 logger.info("Bot {} started".format(botname))
 
-t1 = Thread(name='sendmonster', target=sendmonster, daemon=True, args=(bot, config, connection, pkmn_loc))
+t1 = Thread(name='sendmonster', target=sendmonster, daemon=True, args=(bot, config, connection, pkmn_loc, geoprovider))
 t1.start()
 
 t2 = Thread(name='reorgdup', target=reorg_duplicate, daemon=True, args=())
