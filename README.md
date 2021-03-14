@@ -53,8 +53,11 @@ You can use the following text substitution in the Message strings:
 <def>     : Pokemon Defence
 <sta>     : Pokemon Stamina
 <lvl>     : Pokemon Level
+<road>    : Street name and number of the location
+<poscode> : Postcode of the location
+<town>    : Town of the location
 ```
-
+config.example:  
 ```
 token=xxxxxxxxxx      # Bot API Token
 locale=de             # Language Settings
@@ -73,7 +76,15 @@ dbpassword=xxxxxxxxx  # Database user password
 venuetitle="<pkmn>(<pkmnid>)"
 venuemsg="until <despawn>"
 
-ivmsg="<pkmn>(<pkmnid>)\nIV:<iv> CP:<cp> L:<lvl>\nA:<atk>/D:<def>/S:<sta>\nuntil <despawn>"
+ivmsg="<pkmn>(<pkmnid>)\nIV:<iv> CP:<cp> L:<lvl>\nA:<atk>/D:<def>/S:<sta>\nuntil <despawn>\n<road>\n<postcode> <town>"
+
+nominatim=False                 # enable Nominatim
+nominatim_scheme=""             # Schema for Nominatim, default https
+nominatim_url=""                # Nominatim URL, default nominatim.openstreetmap.org
+                                # use your own like '<user>:<password>@your.FQDN.domain'
+gmaps=False                     # enable Google
+gmaps_apikey=""                 # Google API Key
+
 ```
 
 You can also send the user a start message. Edit the files in "locales/startmsg_<locale>.txt".
@@ -111,19 +122,13 @@ You can also send the user a start message. Edit the files in "locales/startmsg_
 2. **userreorg.py** reorganize users who have not used the bot for a long time. Days are set in the inifile.
 
 ## Changes
-
 ### 13. Jan 2020
-
 Initial Version.
-
 ### 08. Mar 2021
-
 change to Python3
-
 ### 12 . Mar 2021
-
 add distance for Pokemon
-
 ### 13. Mar 2021
-
 add level for Pokemon
+### 14. Mar 2021
+add reverse geocoding

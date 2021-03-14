@@ -10,6 +10,7 @@ from queue import Queue
 from geopy import distance
 
 from lib.logging import logger
+from lib.geolocation import geo_reverse
 
 duplicatemsg = {}
 pkmn_queue = Queue()
@@ -40,12 +41,15 @@ def textsub(text, message):
     text = text.replace("<def>", str(message['individual_defense']))
     text = text.replace("<sta>", str(message['individual_stamina']))
     text = text.replace("<lvl>", str(message['pokemon_level']))
+    text = text.replace("<road>", str(message['road']))
+    text = text.replace("<postcode>", str(message['postcode']))
+    text = text.replace("<town>", str(message['town']))
     return (str(text))
 
 
 ##################
 # send monster to user
-def sendmonster(bot, config, connection, pkmn_loc):
+def sendmonster(bot, config, connection, pkmn_loc, geoprovider):
     cursor = connection.cursor()
 
     botid = bot.get_me().id
@@ -126,6 +130,12 @@ def sendmonster(bot, config, connection, pkmn_loc):
                     level_ok = False
 
                 if dist_ok and level_ok:
+
+                    geo = geo_reverse(geoprovider, message['latitude'], message['longitude'])
+                    message['road'] = "{} {}".format(geo[0], geo[1])
+                    message['postcode'] = geo[2]
+                    message['town'] = geo[3]
+
                     if message['iv'] == "None":
                         if iv == -1:
                             venuetitle1 = textsub(venuetitle, message)
