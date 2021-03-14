@@ -159,13 +159,14 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider):
                                                                                                                 pkmn_name,
                                                                                                                 pkmn_id))
                     elif message['iv'] >= iv:
-                        geo = geo_reverse(geoprovider, message['latitude'], message['longitude'])
-                        message['road'] = "{} {}".format(geo[0], geo[1])
-                        message['postcode'] = geo[2]
-                        message['town'] = geo[3]
-
-                        ivmsg1 = textsub(ivmsg, message)
                         try:
+                            geo = geo_reverse(geoprovider, message['latitude'], message['longitude'])
+                            message['road'] = "{} {}".format(geo[0], geo[1])
+                            message['postcode'] = geo[2]
+                            message['town'] = geo[3]
+
+                            ivmsg1 = textsub(ivmsg, message)
+
                             bot.send_message(chat_id, ivmsg1)
                             bot.send_location(chat_id, message['latitude'], message['longitude'])
                             logger.info(
