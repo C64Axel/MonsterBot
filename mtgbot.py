@@ -12,7 +12,6 @@ from time import time
 from http.server import HTTPServer
 from geopy.geocoders import Nominatim, GoogleV3
 
-
 from lib.dbcheck import db_need_update
 from lib.logging import logger
 from lib.webhook import reorg_duplicate, sendmonster, WebhookHandler
@@ -69,6 +68,7 @@ try:
     cursor = connection.cursor()
 except:
     logger.error("can not connect to database")
+    raise
     quit()
 
 ##################
@@ -127,9 +127,6 @@ def sendtelegram(chatid, msg):
             logger.error("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chatid))
             logger.error("Error: {}".format(sys.exc_info()[0]))
 
-#    except:
-#        logger.error("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chatid))
-
 
 ##################
 # Log all messages send to the bot
@@ -151,12 +148,42 @@ def log_message(bot_instance, message):
 
 
 ##################
+# send range html
+def send_range(chatid):
+
+    cursor.execute("select lat,lon,dist from user where chatid = '%s' and botid = '%s'" % (chatid,botid))
+    result = cursor.fetchone()
+
+    data = io.StringIO('<html>\n<head>\n<title>Your location</title>\n<script src="http://www.openlayers.org/api/OpenLayers.js"></script>\n\
+</head>\n<body>\n<div id="mapdiv"></div>\n<script>\nmap = new OpenLayers.Map("mapdiv");\nmap.addLayer(new OpenLayers.Layer.OSM());\n\
+epsg4326 = new OpenLayers.Projection("EPSG:4326");\nprojectTo = map.getProjectionObject();\n\
+var lonLat = new OpenLayers.LonLat({},{}).transform(epsg4326, projectTo);\nvar zoom = 14;\nmap.setCenter(lonLat, zoom);\n\
+var vectorLayer = new OpenLayers.Layer.Vector("Overlay");\nvar point = new OpenLayers.Geometry.Point(lonLat.lon, lonLat.lat);\n\
+var mycircle = OpenLayers.Geometry.Polygon.createRegularPolygon\n(point,{},30,0);\nvar featurecircle = new OpenLayers.Feature.Vector(mycircle);\n\
+var featurePoint = new OpenLayers.Feature.Vector(point);\nvectorLayer.addFeatures([featurePoint, featurecircle]);\n\
+map.addLayer(vectorLayer);</script></body></html>'.format(result[1],result[0],result[2] * 1609))
+
+    data.name = 'your_range.html'
+
+    try:
+        bot.send_document(chatid, data)
+    except telebot.apihelper.ApiHTTPException as e:
+        logger.error("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chatid))
+        logger.warning("HTTP Error Code: {}".format(e.result))
+    except:
+        logger.error("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chatid))
+        logger.error("Error: {}".format(sys.exc_info()[0]))
+
+
+
+##################
 # Handle location
 @bot.message_handler(content_types=['location'])
 def handle_location(message):
     if bot.userok:
         try:
-            cursor.execute("update user set lat = '%s', lon = '%s' where chatid = '%s'" % (message.location.latitude,message.location.longitude,message.chat.id))
+            cursor.execute("update user set lat = '%s', lon = '%s' where chatid = '%s' and botid = '%s'" % (message.location.latitude,message.location.longitude,message.chat.id,botid))
+            send_range(message.chat.id)
         except:
             sendtelegram(message.chat.id, msg_loc["23"])
 
@@ -242,6 +269,7 @@ def handle_mydata(message):
                 botname = cursor.fetchone()[0]
                 msg = str(msg_loc["21"].format(botname.replace("_","\_"), row[1], row[2], row[3], row[4], row[5], row[6], row[7]))
                 sendtelegram(message.chat.id, msg)
+                send_range(message.chat.id)
         else:
             sendtelegram(message.chat.id, msg_loc["22"])
 
@@ -407,8 +435,9 @@ def handle_distance(message):
             sendtelegram(message.chat.id, msg_loc["24"] + "/dist")
             return
         try:
-            cursor.execute("update user set dist = '%s' where chatid = '%s'" % (dist,message.chat.id))
+            cursor.execute("update user set dist = '%s' where chatid = '%s' and botid = '%s'" % (dist,message.chat.id,botid))
             sendtelegram(message.chat.id, msg_loc["25"].format(dist))
+            send_range(message.chat.id)
         except:
             sendtelegram(message.chat.id, msg_loc["23"])
 
