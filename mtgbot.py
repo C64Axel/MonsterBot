@@ -120,16 +120,16 @@ if geofencefile:
     try:
         with open(geofencefile, "r") as fencefile:
             geofence = {}
-            counter = 0
             for i in fencefile:
                 if re.search("\[.*\]", i):
                     name = i.split()[0]
-                    counter += 1
                     geofence[name] = []
                 else:
                     geofence[name].append(tuple(map(float, i.split(','))))
     except:
-        pass
+        logger.warning("Can not open geofence file {}".format(geofencefile))
+        logger.warning("Error: {}".format(sys.exc_info()[0]))
+        logger.warning("setting geofence to False")
 
 
 ##################
