@@ -43,7 +43,8 @@ try:
     gmaps_apikey = config.get('gmaps_apikey', False)
 except:
     logger.error("Error in config.ini")
-    quit()
+    raise
+
 
 ##################
 # check some parameters
@@ -69,7 +70,7 @@ try:
 except:
     logger.error("can not connect to database")
     raise
-    quit()
+
 
 ##################
 # check DB-Version
@@ -95,7 +96,7 @@ try:
         pass
 except:
     logger.error("Error in Telegram. Can not find Botname and ID")
-    quit()
+    raise
 
 ##################
 # set geoprovider
