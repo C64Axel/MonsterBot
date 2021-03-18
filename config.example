@@ -23,3 +23,5 @@ nominatim_url=""                # Nominatim URL, default nominatim.openstreetmap
                                 # use your own like '<user>:<password>@your.FQDN.domain'
 gmaps=False                     # enable Google
 gmaps_apikey=""                 # Google API Key
+
+geofile=""                      # Filename of the geofence file

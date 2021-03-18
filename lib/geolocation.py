@@ -34,4 +34,3 @@ def geo_reverse(geolocator, lat, lon):
         else:
             return ['', '', '', '']
 
-

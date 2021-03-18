@@ -22,18 +22,11 @@ mysql -u <dbuser> < createdb.sql
 
 ### Upgrade the Database
 
-To upgrade the Database please stop all bots and webhooks and execute
+To upgrade the Database please stop all bots and execute
 
 ```
 dbupdate.py
 ```
-
-### Upgrade from an older Version
-
-Save your config.ini  
-Delete your Repository, and your virtual Environment  
-Clone the new Version and create a new virtual Environment
-Copy your config.ini back
 
 ### Telegram
 
@@ -41,22 +34,6 @@ Create a Telegram Bot and put the APIToken in the config.ini File.
 
 ### Customize config.ini
 
-You can use the following text substitution in the Message strings:
-
-```
-<pkmn>    : Pokemonname
-<pkmnid>  : PokemonID
-<despawn> : Despawntime 24h
-<iv>      : Pokemon IV
-<cp>      : Pokemon CP
-<atk>     : Pokemon Attack
-<def>     : Pokemon Defence
-<sta>     : Pokemon Stamina
-<lvl>     : Pokemon Level
-<road>    : Street name and number of the location
-<poscode> : Postcode of the location
-<town>    : Town of the location
-```
 config.example:  
 ```
 token=xxxxxxxxxx      # Bot API Token
@@ -78,22 +55,50 @@ venuemsg="until <despawn>"
 
 ivmsg="<pkmn>(<pkmnid>)\nIV:<iv> CP:<cp> L:<lvl>\nA:<atk>/D:<def>/S:<sta>\nuntil <despawn>\n<road>\n<postcode> <town>"
 
-nominatim=False                 # enable Nominatim
+nominatim=False                 # enable Nominatim = True
 nominatim_scheme=""             # Schema for Nominatim, default https
 nominatim_url=""                # Nominatim URL, default nominatim.openstreetmap.org
                                 # use your own like '<user>:<password>@your.FQDN.domain'
-gmaps=False                     # enable Google
+gmaps=False                     # enable Google = True
 gmaps_apikey=""                 # Google API Key
 
+geofile=""                      # Filename of the geofence file
+```
+You can use the following text substitution in the Message strings:
+
+```
+<pkmn>    : Pokemonname
+<pkmnid>  : PokemonID
+<despawn> : Despawntime 24h
+<iv>      : Pokemon IV
+<cp>      : Pokemon CP
+<atk>     : Pokemon Attack
+<def>     : Pokemon Defence
+<sta>     : Pokemon Stamina
+<lvl>     : Pokemon Level
+<road>    : Street name and number of the location
+<poscode> : Postcode of the location
+<town>    : Town of the location
+```
+The geofile can have multiple entries like:
+```
+[geofence1]
+lat,lon
+lat,lon
+lat.lon
+[geofence2]
+lat,lon
+lat,lon
 ```
 
-You can also send the user a start message. Edit the files in "locales/startmsg_<locale>.txt".
+You can also send the user a start message. Edit the files in "locales/startmsg_&lt;locale&gt;.txt".
+
 
 ## Programs:
 
 1. **mtgbot.py** is the program for the Telegram bot commands. It manages the settings of the users.
 
-   It knows the folowing commands:
+   It knows the following commands:
 
    ```
    help - : Help
@@ -108,18 +113,19 @@ You can also send the user a start message. Edit the files in "locales/startmsg_
    start - : aktivate the Bot
    mydata - : show your stored data like last position and distance
    deleteall - : delete all your data, no recover
-   
    ```
    
-   You can use this for the command list in Telegram ;-)  
-
+   You can use this for the command list in Telegram ;-)<p>  
    The Users Pokemonlist is shared between all the bots connected to the same Database. So a user can switch between the bots by stopping the one and starting another one. He can now use the same List on multiple Bots.  
-   Just start mtgbot.py with Parameter -c < CONFIGFILE ><p>  
+   For multiple instances just start mtgbot.py with Parameter -c &lt;CONFIGFILE&gt;<p>  
    If a user only wants pokemon within a radius, he can share a location via telegram and set a radius with /setdist  
    /setdist 0 disable this function
    
 
-2. **userreorg.py** reorganize users who have not used the bot for a long time. Days are set in the inifile.
+2. **userreorg.py** reorganize users who have not used the bot for a long time. Days are set in the inifile.  
+
+
+3. **sendallmsg.py** a little tool to send a message to all users.
 
 ## Changes
 ### 13. Jan 2020
@@ -131,4 +137,6 @@ add distance for Pokemon
 ### 13. Mar 2021
 add level for Pokemon
 ### 14. Mar 2021
-add reverse geocoding
+add reverse geocoding for Googel and Nominatim
+### 18. Mar 2021
+add geofence

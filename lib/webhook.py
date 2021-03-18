@@ -4,6 +4,7 @@ import http.server
 import json
 import hashlib
 import datetime
+import matplotlib.path as mplPath
 
 from time import sleep, time
 from queue import Queue
@@ -49,7 +50,7 @@ def textsub(text, message):
 
 ##################
 # send monster to user
-def sendmonster(bot, config, connection, pkmn_loc, geoprovider):
+def sendmonster(bot, config, connection, pkmn_loc, geoprovider, geofences):
     cursor = connection.cursor()
 
     botid = bot.get_me().id
@@ -65,8 +66,21 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider):
         # set monster info
         #
         pkmn_name = pkmn_loc[str(pkmn_id)]["name"]
-        pkmn_despawn = datetime.datetime.fromtimestamp(int(message['disappear_time'])).strftime('%H:%M:%S')
 
+        # check if in geofence
+        #
+        if geofences:
+            inside = False
+            for geofence in geofences.keys():
+                mypath = mplPath.Path(geofences[geofence])
+                if mypath.contains_points([tuple((message['latitude'], message['longitude']))]):
+                    inside = True
+                    break
+            if not inside:
+                logger.info("{}({}) outside geofence".format(pkmn_name, pkmn_id))
+                continue
+
+        pkmn_despawn = datetime.datetime.fromtimestamp(int(message['disappear_time'])).strftime('%H:%M:%S')
         logger.info("{}({}) until {} @ {},{}".format(pkmn_name, pkmn_id, pkmn_despawn, message['latitude'],
                                                      message['longitude']))
 
@@ -118,8 +132,8 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider):
                 if dist > 0:
                     pkmn_dist = distance.distance((lat, lon), (message['latitude'], message['longitude'])).kilometers
                     if pkmn_dist > dist:
-                        logger.info("{} long distance: dist: {}  pkmn_dist: {}".format(chat_id, dist, pkmn_dist))
                         dist_ok = False
+                        logger.info("{} long distance: dist: {}  pkmn_dist: {}".format(chat_id, dist, pkmn_dist))
 
                 # check level
                 if message['pokemon_level'] == '??':
@@ -129,48 +143,22 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider):
                 else:
                     level_ok = False
 
-                if dist_ok and level_ok:
-                    if message['iv'] == "None":
-                        if iv == -1:
-                            geo = geo_reverse(geoprovider, message['latitude'], message['longitude'])
-                            message['road'] = "{} {}".format(geo[0], geo[1])
-                            message['postcode'] = geo[2]
-                            message['town'] = geo[3]
+                if not (dist_ok and level_ok):
+                    continue
 
-                            venuetitle1 = textsub(venuetitle, message)
-                            venuemsg1 = textsub(venuemsg, message)
-                            try:
-                                bot.send_venue(chat_id, message['latitude'], message['longitude'], venuetitle1,
-                                               venuemsg1)
-                                logger.info(
-                                    "Send Telegram Message to {} Monster {}({})".format(chat_id, pkmn_name, pkmn_id))
-                            except telebot.apihelper.ApiTelegramException as e:
-                                if e.result_json['error_code'] == 403:
-                                    bot_was_blocked(connection, botid, chat_id)
-                            except telebot.apihelper.ApiHTTPException as e:
-                                logger.error("Connection Error")
-                                logger.error("HTTP Error Code: {}".format(e.result))
-                            except:
-                                logger.error("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chat_id))
-                                logger.error("Error: {}".format(sys.exc_info()[0]))
-                        else:
-                            logger.info(
-                                "No message send to {}. SearchIV set but Monster {}({}) not encountered".format(chat_id,
-                                                                                                                pkmn_name,
-                                                                                                                pkmn_id))
-                    elif message['iv'] >= iv:
+                if message['iv'] == "None":
+                    if iv == -1:
+                        geo = geo_reverse(geoprovider, message['latitude'], message['longitude'])
+                        message['road'] = "{} {}".format(geo[0], geo[1])
+                        message['postcode'] = geo[2]
+                        message['town'] = geo[3]
+                        venuetitle1 = textsub(venuetitle, message)
+                        venuemsg1 = textsub(venuemsg, message)
                         try:
-                            geo = geo_reverse(geoprovider, message['latitude'], message['longitude'])
-                            message['road'] = "{} {}".format(geo[0], geo[1])
-                            message['postcode'] = geo[2]
-                            message['town'] = geo[3]
-
-                            ivmsg1 = textsub(ivmsg, message)
-
-                            bot.send_message(chat_id, ivmsg1)
-                            bot.send_location(chat_id, message['latitude'], message['longitude'])
+                            bot.send_venue(chat_id, message['latitude'], message['longitude'], venuetitle1,
+                                           venuemsg1)
                             logger.info(
-                                "Send Telegram IV Message to {} Monster {}({})".format(chat_id, pkmn_name, pkmn_id))
+                                "Send Telegram message to {} Monster {}({})".format(chat_id, pkmn_name, pkmn_id))
                         except telebot.apihelper.ApiTelegramException as e:
                             if e.result_json['error_code'] == 403:
                                 bot_was_blocked(connection, botid, chat_id)
@@ -180,10 +168,37 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider):
                         except:
                             logger.error("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chat_id))
                             logger.error("Error: {}".format(sys.exc_info()[0]))
-                        else:
-                            logger.info(
-                                "No message send to {}. SearchIV to low for Monster {}({})".format(chat_id, pkmn_name,
-                                                                                                   pkmn_id))
+                    else:
+                        logger.info(
+                            "No message send to {}. SearchIV set but Monster {}({}) not encountered".format(chat_id,
+                                                                                                            pkmn_name,
+                                                                                                            pkmn_id))
+                elif message['iv'] >= iv:
+                    try:
+                        geo = geo_reverse(geoprovider, message['latitude'], message['longitude'])
+                        message['road'] = "{} {}".format(geo[0], geo[1])
+                        message['postcode'] = geo[2]
+                        message['town'] = geo[3]
+
+                        ivmsg1 = textsub(ivmsg, message)
+
+                        bot.send_message(chat_id, ivmsg1)
+                        bot.send_location(chat_id, message['latitude'], message['longitude'])
+                        logger.info(
+                            "Send Telegram IV message to {} Monster {}({})".format(chat_id, pkmn_name, pkmn_id))
+                    except telebot.apihelper.ApiTelegramException as e:
+                        if e.result_json['error_code'] == 403:
+                            bot_was_blocked(connection, botid, chat_id)
+                    except telebot.apihelper.ApiHTTPException as e:
+                        logger.error("Connection Error")
+                        logger.error("HTTP Error Code: {}".format(e.result))
+                    except:
+                        logger.error("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chat_id))
+                        logger.error("Error: {}".format(sys.exc_info()[0]))
+                    else:
+                        logger.info(
+                            "No message send to {}. SearchIV to low for Monster {}({})".format(chat_id, pkmn_name,
+                                                                                               pkmn_id))
 
 
 ##################
