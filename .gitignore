@@ -5,6 +5,7 @@
 !mtgbot.py
 !dbupdate.py
 !userreorg.py
+!sendallmsg.py
 !*.example
 !createdb.sql
 !README.md
