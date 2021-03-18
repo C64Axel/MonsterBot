@@ -5,6 +5,7 @@ import json
 import argparse
 import sys
 import io
+import re
 
 from configobj import ConfigObj
 from threading import Thread
@@ -41,6 +42,7 @@ try:
     nominatim_url = config.get('nominatim_url', 'nominatim.openstreetmap.org')
     gmaps = config.as_bool('gmaps')
     gmaps_apikey = config.get('gmaps_apikey', False)
+    geofencefile = config.get('geofile', False)
 except:
     logger.error("Error in config.ini")
     raise
@@ -109,6 +111,25 @@ elif gmaps:
 else:
     geoprovider = False
     logger.info("Geolocation is disabled")
+
+
+##################
+# set geofence
+geofence = False
+if geofencefile:
+    try:
+        with open(geofencefile, "r") as fencefile:
+            geofence = {}
+            counter = 0
+            for i in fencefile:
+                if re.search("\[.*\]", i):
+                    name = i.split()[0]
+                    counter += 1
+                    geofence[name] = []
+                else:
+                    geofence[name].append(tuple(map(float, i.split(','))))
+    except:
+        pass
 
 
 ##################
@@ -465,7 +486,7 @@ msg_loc = json.load(open("locales/msg_" + locale + ".json"))
 
 logger.info("Bot {} started".format(botname))
 
-t1 = Thread(name='sendmonster', target=sendmonster, daemon=True, args=(bot, config, connection, pkmn_loc, geoprovider))
+t1 = Thread(name='sendmonster', target=sendmonster, daemon=True, args=(bot, config, connection, pkmn_loc, geoprovider, geofence))
 t1.start()
 
 t2 = Thread(name='reorgdup', target=reorg_duplicate, daemon=True, args=())

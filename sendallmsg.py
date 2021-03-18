@@ -74,7 +74,7 @@ def sendtelegram(chatid, msg):
             print("HTTP Error Code: {}".format(e.result))
             time.sleep(5)
             bot.send_message(chatid, text, parse_mode="markdown")
-        except telebot.apihelper.ApiTelegramException as e:
+        except telebot.apihelper.ApiTelegramException:
             print("Telegram exception sending message to {}".format(chatid))
         except:
             print("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chatid))
