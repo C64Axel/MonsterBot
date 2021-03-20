@@ -105,6 +105,7 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider, geofences):
         message['iv'] = pkmn_iv
         message['name'] = pkmn_name
         message['despawn'] = pkmn_despawn
+        message['geo_ok'] = False
 
         # get all chatids for the monster
         # no blocked chat id
@@ -148,10 +149,13 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider, geofences):
 
                 if message['iv'] == "None":
                     if iv == -1:
-                        geo = geo_reverse(geoprovider, message['latitude'], message['longitude'])
-                        message['road'] = "{} {}".format(geo[0], geo[1])
-                        message['postcode'] = geo[2]
-                        message['town'] = geo[3]
+                        if not message['geo_ok']:
+                            geo = geo_reverse(geoprovider, message['latitude'], message['longitude'])
+                            message['road'] = "{} {}".format(geo[0], geo[1])
+                            message['postcode'] = geo[2]
+                            message['town'] = geo[3]
+                            message['geo_ok'] = True
+
                         venuetitle1 = textsub(venuetitle, message)
                         venuemsg1 = textsub(venuemsg, message)
                         try:
@@ -175,10 +179,12 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider, geofences):
                                                                                                             pkmn_id))
                 elif message['iv'] >= iv:
                     try:
-                        geo = geo_reverse(geoprovider, message['latitude'], message['longitude'])
-                        message['road'] = "{} {}".format(geo[0], geo[1])
-                        message['postcode'] = geo[2]
-                        message['town'] = geo[3]
+                        if not message['geo_ok']:
+                            geo = geo_reverse(geoprovider, message['latitude'], message['longitude'])
+                            message['road'] = "{} {}".format(geo[0], geo[1])
+                            message['postcode'] = geo[2]
+                            message['town'] = geo[3]
+                            message['geo_ok'] = True
 
                         ivmsg1 = textsub(ivmsg, message)
 
