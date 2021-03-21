@@ -3,6 +3,7 @@ locale=de             # Language Settings
 
 port=6000             # Port for webhook
 reorgdays=180         # Days for reorg inactive users
+allowmode=False       # toggle free/allow mode
 
 dbname=tgbotdb        # Databse name
 dbhost=127.0.0.1      # Database hostname

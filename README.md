@@ -8,8 +8,16 @@ Telegram Bot for individual selection
 
 ## Installation Guide:
 
+Clone the git repository.  
+Create a virtual environment and install the requirements:  
 ```
-pip install -r requirements.txt
+apt install python-virtualenv
+
+virtualenv -p python3 ~/Monsterbot_env
+
+cd ~/Monsterbot
+
+~/Monsterbot_env/bin/pip install -r requirements.txt
 ```
 
 ### Install the Database
@@ -41,6 +49,7 @@ locale=de             # Language Settings
 
 port=6000             # Port for webhook
 reorgdays=180         # Days for reorg inactive users
+allowmode=False       # toggle free/allow mode
 
 dbname=tgbotdb        # Database name
 dbhost=127.0.0.1      # Database hostname
@@ -50,8 +59,8 @@ dbpassword=xxxxxxxxx  # Database user password
 
 # startmsg=           # individual Startmessagefile default startmsg_<locale>.txt
 
-venuetitle="<pkmn>(<pkmnid>)"
-venuemsg="until <despawn>"
+venuetitle="<pkmn>(<pkmnid>) until <despawn>"
+venuemsg="<road> <postcode> <town>"
 
 ivmsg="<pkmn>(<pkmnid>)\nIV:<iv> CP:<cp> L:<lvl>\nA:<atk>/D:<def>/S:<sta>\nuntil <despawn>\n<road>\n<postcode> <town>"
 
@@ -64,8 +73,7 @@ gmaps_apikey=""                 # Google API Key
 
 geofile=""                      # Filename of the geofence file
 ```
-You can use the following text substitution in the Message strings:
-
+You can use the following text substitution in the venuetitle, venuemsg and ivmsg strings:
 ```
 <pkmn>    : Pokemonname
 <pkmnid>  : PokemonID
@@ -119,13 +127,28 @@ You can also send the user a start message. Edit the files in "locales/startmsg_
    The Users Pokemonlist is shared between all the bots connected to the same Database. So a user can switch between the bots by stopping the one and starting another one. He can now use the same List on multiple Bots.  
    For multiple instances just start mtgbot.py with Parameter -c &lt;CONFIGFILE&gt;<p>  
    If a user only wants pokemon within a radius, he can share a location via telegram and set a radius with /setdist  
-   /setdist 0 disable this function
-   
+   /setdist 0 disable this function<p>  
+  
 
-2. **userreorg.py** reorganize users who have not used the bot for a long time. Days are set in the inifile.  
+2. **userreorg.py**  
+   reorganize users who have not used the bot for a long time. Days are set in the inifile.  
 
 
-3. **sendallmsg.py** a little tool to send a message to all users.
+3. **sendallmsg.py "&lt;MESSAGE&gt;"**  
+   A little tool to send a message to all users.  
+
+
+4. **user.py**  
+   This Bot has two modes. A Freemode and an Allowmode. You can toggle the mode with the allowmode Flag in the config.ini.<p>  
+   In Freemode (allowmode=False) everyone can use the bot.    
+   If you want certain people not to use the bot just block them with```user.py -bl <CHATID>```.  
+   The same command unblock the ChatId if it was blocked.<p>      
+   If you want to use the Allowmode, you must add all allowed ChatId's:  
+   ```user.py -a <CHATID>``` add a ChatId to the userallow Table.  
+   ```user.py -d <CHATID>``` delete a ChatId from the userallow Table.  
+   ```user.py -s``` show all allowed ChatId's from the userallow Table.
+
+
 
 ## Changes
 ### 13. Jan 2020
@@ -140,3 +163,5 @@ add level for Pokemon
 add reverse geocoding for Googel and Nominatim
 ### 18. Mar 2021
 add geofence
+### 21. Mar 2021
+add allowmode

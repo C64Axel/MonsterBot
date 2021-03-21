@@ -11,7 +11,8 @@ from lib.logging import logger
 ##################
 # parsing arguments
 parser = argparse.ArgumentParser()
-parser.add_argument("-d", "--dry", help="dry run", action='store_true')
+parser.add_argument("-d", dest='dry', help="dry run", action='store_true')
+parser.add_argument("-c", dest='configfile', help="configfile", type=str, default="config.ini")
 args = parser.parse_args()
 
 dryrun = 0
@@ -25,7 +26,7 @@ except:
 # read inifile
 #
 try:
-    config = ConfigObj("config.ini")
+    config = ConfigObj(args.configfile)
     db = config['dbname']
     dbhost = config['dbhost']
     dbport = config.get('dbport', '3306')

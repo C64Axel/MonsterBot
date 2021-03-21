@@ -50,7 +50,7 @@ def textsub(text, message):
 
 ##################
 # send monster to user
-def sendmonster(bot, config, connection, pkmn_loc, geoprovider, geofences):
+def sendmonster(bot, config, connection, pkmn_loc, geoprovider, geofences, allowmode):
     cursor = connection.cursor()
 
     botid = bot.get_me().id
@@ -111,9 +111,15 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider, geofences):
         # no blocked chat id
         #
         connection.ping(reconnect=True)
-        cursor.execute("select chatid,iv,level from userassign where pkmnid = '%s' and \
-				chatid not in (select chatid from userblock) and \
-				chatid in (select chatid from user where botid = '%s')" % (pkmn_id, botid))
+        if allowmode:
+            cursor.execute("select chatid,iv,level from userassign where pkmnid = '%s' and \
+            		chatid in (select chatid from userallow) and \
+            		chatid in (select chatid from user where botid = '%s')" % (pkmn_id, botid))
+
+        else:
+            cursor.execute("select chatid,iv,level from userassign where pkmnid = '%s' and \
+				    chatid not in (select chatid from userblock) and \
+				    chatid in (select chatid from user where botid = '%s')" % (pkmn_id, botid))
         result_pkmn = cursor.fetchall()
 
         if len(result_pkmn) > 0:
@@ -149,6 +155,7 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider, geofences):
 
                 if message['iv'] == "None":
                     if iv == -1:
+                        # get geo only if not set
                         if not message['geo_ok']:
                             geo = geo_reverse(geoprovider, message['latitude'], message['longitude'])
                             message['road'] = "{} {}".format(geo[0], geo[1])
@@ -179,6 +186,7 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider, geofences):
                                                                                                             pkmn_id))
                 elif message['iv'] >= iv:
                     try:
+                        # get geo only if not set
                         if not message['geo_ok']:
                             geo = geo_reverse(geoprovider, message['latitude'], message['longitude'])
                             message['road'] = "{} {}".format(geo[0], geo[1])
@@ -201,10 +209,10 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider, geofences):
                     except:
                         logger.error("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chat_id))
                         logger.error("Error: {}".format(sys.exc_info()[0]))
-                    else:
-                        logger.info(
-                            "No message send to {}. SearchIV to low for Monster {}({})".format(chat_id, pkmn_name,
-                                                                                               pkmn_id))
+                else:
+                    logger.info(
+                        "No message send to {}. SearchIV to low for Monster {}({})".format(chat_id, pkmn_name,
+                                                                                           pkmn_id))
 
 
 ##################

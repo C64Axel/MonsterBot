@@ -25,5 +25,6 @@
 	"24" : "Please give me a distance after ",
 	"25" : "Your distance was set to {} km.\nPlease don't forget to send your Position.",
 	"26" : "Please give me a PokedexId and level after /setlvl",
-	"27" : "Setting level > {} to Pokemon {}"
+	"27" : "Setting level > {} to Pokemon {}",
+	"28" : "You ChatID is not allowed to use this bot. Pleas contact the Administrator."
 }
