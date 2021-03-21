@@ -11,14 +11,14 @@ from configobj import ConfigObj
 ##################
 # parsing arguments
 parser = argparse.ArgumentParser()
-parser.add_argument("-c", "--cfile", help="configfile", type=str, default="config.ini")
-parser.add_argument('message', help="Message to send", type=str, default="config.ini")
+parser.add_argument("-c", dest='configfile', help="configfile", type=str, default="config.ini")
+parser.add_argument('message', help="Message to send", type=str)
 args = parser.parse_args()
 
 ##################
 # read inifile
 try:
-    config = ConfigObj(args.cfile)
+    config = ConfigObj(args.configfile)
     apitoken = config.get('token')
     db = config['dbname']
     dbhost = config['dbhost']

@@ -21,13 +21,13 @@ from lib.webhook import reorg_duplicate, sendmonster, WebhookHandler
 ##################
 # parsing arguments
 parser = argparse.ArgumentParser()
-parser.add_argument("-c", "--cfile", help="configfile", type=str, default="config.ini")
+parser.add_argument("-c", dest='configfile', help="configfile", type=str, default="config.ini")
 args = parser.parse_args()
 
 ##################
 # read inifile
 try:
-    config = ConfigObj(args.cfile)
+    config = ConfigObj(args.configfile)
     apitoken = config.get('token')
     db = config['dbname']
     dbhost = config['dbhost']
@@ -43,6 +43,7 @@ try:
     gmaps = config.as_bool('gmaps')
     gmaps_apikey = config.get('gmaps_apikey', False)
     geofencefile = config.get('geofile', False)
+    allowmode = config.as_bool('allowmode')
 except:
     logger.error("Error in config.ini")
     raise
@@ -159,11 +160,16 @@ def log_message(bot_instance, message):
 
     try:
         connection.ping(reconnect=True)
-        cursor.execute("select count(*) from userblock where chatid = '%s'" % (message.chat.id))
-        result = cursor.fetchone()
-        if result[0] == 1:
-            sendtelegram(message.chat.id, msg_loc["19"])
-            bot_instance.userok = False
+        if allowmode:
+            cursor.execute("select count(*) from userallow where chatid = '%s'" % (message.chat.id))
+            if cursor.fetchone()[0] == 0:
+                sendtelegram(message.chat.id, msg_loc["28"])
+                bot_instance.userok = False
+        else:
+            cursor.execute("select count(*) from userblock where chatid = '%s'" % (message.chat.id))
+            if cursor.fetchone()[0] == 1:
+                sendtelegram(message.chat.id, msg_loc["19"])
+                bot_instance.userok = False
     except:
         sendtelegram(message.chat.id, msg_loc["6"])
         bot_instance.userok = False
@@ -486,7 +492,7 @@ msg_loc = json.load(open("locales/msg_" + locale + ".json"))
 
 logger.info("Bot {} started".format(botname))
 
-t1 = Thread(name='sendmonster', target=sendmonster, daemon=True, args=(bot, config, connection, pkmn_loc, geoprovider, geofence))
+t1 = Thread(name='sendmonster', target=sendmonster, daemon=True, args=(bot, config, connection, pkmn_loc, geoprovider, geofence, allowmode))
 t1.start()
 
 t2 = Thread(name='reorgdup', target=reorg_duplicate, daemon=True, args=())

@@ -31,6 +31,11 @@ CREATE TABLE userblock (
 	PRIMARY KEY (`chatid`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE userallow (
+	`chatid` varchar(45) NOT NULL,
+	PRIMARY KEY (`chatid`)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE `userassign` (
 	`pkmnid` int(11) NOT NULL,
 	`chatid` varchar(45) NOT NULL,
@@ -44,4 +49,4 @@ CREATE TABLE `dbversion` (
 	`version` int(11) NOT NULL DEFAULT '0',
 	PRIMARY KEY (`version`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-insert into dbversion values ( "2" );
+insert into dbversion values ( "3" );
