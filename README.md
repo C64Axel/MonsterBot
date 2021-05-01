@@ -173,3 +173,5 @@ add reverse geocoding for Googel and Nominatim
 add geofence
 ### 21. Mar 2021
 add allowmode
+### 01. May 2021
+add TelegramGroup allow
