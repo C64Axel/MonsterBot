@@ -1,5 +1,4 @@
 import telebot
-
 import pymysql.cursors
 import json
 import argparse
@@ -16,6 +15,7 @@ from geopy.geocoders import Nominatim, GoogleV3
 from lib.dbcheck import db_need_update
 from lib.logging import logger
 from lib.webhook import reorg_duplicate, sendmonster, WebhookHandler
+from lib.auth import user_ok
 
 
 ##################
@@ -44,6 +44,7 @@ try:
     gmaps_apikey = config.get('gmaps_apikey', False)
     geofencefile = config.get('geofile', False)
     allowmode = config.as_bool('allowmode')
+    tggroup = config.get('tggroup', '')
 except:
     logger.error("Error in config.ini")
     raise
@@ -156,23 +157,17 @@ def sendtelegram(chatid, msg):
 @bot.middleware_handler(update_types=['message'])
 def log_message(bot_instance, message):
     logger.info("Message from ID:{}:{}:{}".format(message.from_user.id, message.from_user.username, message.text))
-    bot_instance.userok = True
+    bot_instance.userok = False
 
-    try:
-        connection.ping(reconnect=True)
-        if allowmode:
-            cursor.execute("select count(*) from userallow where chatid = '%s'" % (message.chat.id))
-            if cursor.fetchone()[0] == 0:
+    if message.content_type == 'text' and message.text[0] == '/':
+        try:
+            connection.ping(reconnect=True)
+            if user_ok(bot, connection, allowmode, tggroup, message.chat.id):
+                bot_instance.userok = True
+            else:
                 sendtelegram(message.chat.id, msg_loc["28"])
-                bot_instance.userok = False
-        else:
-            cursor.execute("select count(*) from userblock where chatid = '%s'" % (message.chat.id))
-            if cursor.fetchone()[0] == 1:
-                sendtelegram(message.chat.id, msg_loc["19"])
-                bot_instance.userok = False
-    except:
-        sendtelegram(message.chat.id, msg_loc["6"])
-        bot_instance.userok = False
+        except:
+            sendtelegram(message.chat.id, msg_loc["6"])
 
 
 ##################
@@ -503,4 +498,5 @@ httpd.allow_reuse_address = True
 t3 = Thread(name='webhook', target=start_webhook, daemon=True, args=())
 t3.start()
 
-bot.infinity_polling()
+# bot.infinity_polling()
+bot.polling()
