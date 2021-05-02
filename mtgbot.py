@@ -498,5 +498,4 @@ httpd.allow_reuse_address = True
 t3 = Thread(name='webhook', target=start_webhook, daemon=True, args=())
 t3.start()
 
-# bot.infinity_polling()
-bot.polling()
+bot.infinity_polling()
