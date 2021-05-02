@@ -49,7 +49,9 @@ locale=de             # Language Settings
 
 port=6000             # Port for webhook
 reorgdays=180         # Days for reorg inactive users
+
 allowmode=False       # toggle free/allow mode
+tggroup=""            # Telegram group for allowed Users
 
 dbname=tgbotdb        # Database name
 dbhost=127.0.0.1      # Database hostname
@@ -142,12 +144,18 @@ You can also send the user a start message. Edit the files in "locales/startmsg_
    This Bot has two modes. A Freemode and an Allowmode. You can toggle the mode with the allowmode Flag in the config.ini.<p>  
    In Freemode (allowmode=False) everyone can use the bot.    
    If you want certain people not to use the bot just block them with```user.py -bl <CHATID>```.  
-   The same command unblock the ChatId if it was blocked.<p>      
-   If you want to use the Allowmode, you must add all allowed ChatId's:  
+   The same command unblock the ChatId if it was blocked.<p>  
+   If you want to use the Allowmode, you can add all allowed ChatId's:  
    ```user.py -a <CHATID>``` add a ChatId to the userallow Table.  
    ```user.py -d <CHATID>``` delete a ChatId from the userallow Table.  
-   ```user.py -s``` show all allowed ChatId's from the userallow Table.
-
+   ```user.py -s``` show all allowed ChatId's from the userallow Table.<p>  
+   Another way to allow user to use the Bot ist the Authentication with a Telegram group.  
+   To activate it, put the bot as admin in the group and set tggroup to the GroupChatID.  
+   So any user within this group is also allowed to use this bot.  
+   The bot cache the Membership for 5 minutes.  
+   If a member leaves the group, his or her list is not deleted.<p>  
+   So the order of authentication is: blocklist -no-> allowlist -no-> telegramgroup -no-> disallow use
+   
 
 
 ## Changes
@@ -165,3 +173,5 @@ add reverse geocoding for Googel and Nominatim
 add geofence
 ### 21. Mar 2021
 add allowmode
+### 01. May 2021
+add TelegramGroup allow

@@ -12,6 +12,7 @@ from geopy import distance
 
 from lib.logging import logger
 from lib.geolocation import geo_reverse
+from lib.auth import user_ok
 
 duplicatemsg = {}
 pkmn_queue = Queue()
@@ -57,6 +58,7 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider, geofences, allow
     venuetitle = config['venuetitle']
     venuemsg = str(config['venuemsg'])
     ivmsg = str(config['ivmsg'])
+    tggroup = config.get('tggroup', '')
 
     while True:
         message = pkmn_queue.get()
@@ -111,21 +113,19 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider, geofences, allow
         # no blocked chat id
         #
         connection.ping(reconnect=True)
-        if allowmode:
-            cursor.execute("select chatid,iv,level from userassign where pkmnid = '%s' and \
-            		chatid in (select chatid from userallow) and \
-            		chatid in (select chatid from user where botid = '%s')" % (pkmn_id, botid))
-
-        else:
-            cursor.execute("select chatid,iv,level from userassign where pkmnid = '%s' and \
-				    chatid not in (select chatid from userblock) and \
-				    chatid in (select chatid from user where botid = '%s')" % (pkmn_id, botid))
+        cursor.execute("select chatid,iv,level from userassign where pkmnid = '%s' and \
+            		    chatid in (select chatid from user where botid = '%s')" % (pkmn_id, botid))
         result_pkmn = cursor.fetchall()
 
         if len(result_pkmn) > 0:
+
             # send monster message to all
             #
             for chat_id, iv, level in result_pkmn:
+
+                if not user_ok(bot, connection, allowmode, tggroup, chat_id):
+                    logger.info("ChatID {} not allowed for this Bot but has assignments".format(chat_id))
+                    continue
 
                 # get the user details
                 cursor.execute("select lat,lon,dist from user where chatid = '%s'" % (chat_id))
