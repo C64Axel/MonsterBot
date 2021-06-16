@@ -455,7 +455,7 @@ def handle_distance(message):
         try:
             dist = float(message.text.split(" ")[1])
         except:
-            sendtelegram(message.chat.id, msg_loc["24"] + "/dist")
+            sendtelegram(message.chat.id, msg_loc["24"] + "/setdist")
             return
         try:
             cursor.execute("update user set dist = '%s' where chatid = '%s' and botid = '%s'" % (dist,message.chat.id,botid))
