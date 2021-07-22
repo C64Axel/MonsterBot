@@ -114,7 +114,7 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider, geofences, allow
         #
         connection.ping(reconnect=True)
         cursor.execute("select chatid,iv,level from userassign where pkmnid = '%s' and \
-            		    chatid in (select chatid from user where botid = '%s')" % (pkmn_id, botid))
+                        chatid in (select chatid from user where botid = '%s')" % (pkmn_id, botid))
         result_pkmn = cursor.fetchall()
 
         if len(result_pkmn) > 0:
