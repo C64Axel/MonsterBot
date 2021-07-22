@@ -8,7 +8,7 @@ import re
 
 from configobj import ConfigObj
 from threading import Thread
-from time import time
+from time import sleep
 from http.server import HTTPServer
 from geopy.geocoders import Nominatim, GoogleV3
 
@@ -145,7 +145,7 @@ def sendtelegram(chatid, msg):
         except telebot.apihelper.ApiHTTPException as e:
             logger.warning("ConnectionError - Sending again after 5 seconds!!!")
             logger.warning("HTTP Error Code: {}".format(e.result))
-            time.sleep(5)
+            sleep(5)
             bot.send_message(chatid, text, parse_mode="markdown")
         except:
             logger.error("ERROR IN SENDING TELEGRAM MESSAGE TO {}".format(chatid))
@@ -174,7 +174,7 @@ def log_message(bot_instance, message):
 # send range html
 def send_range(chatid):
 
-    cursor.execute("select lat,lon,dist from user where chatid = '%s' and botid = '%s'" % (chatid,botid))
+    cursor.execute("select lat,lon,dist from user where chatid = '%s' and botid = '%s'" % (chatid, botid))
     result = cursor.fetchone()
 
     data = io.StringIO('<html>\n<head>\n<title>Your location</title>\n<script src="http://www.openlayers.org/api/OpenLayers.js"></script>\n\
@@ -184,7 +184,7 @@ var lonLat = new OpenLayers.LonLat({},{}).transform(epsg4326, projectTo);\nvar z
 var vectorLayer = new OpenLayers.Layer.Vector("Overlay");\nvar point = new OpenLayers.Geometry.Point(lonLat.lon, lonLat.lat);\n\
 var mycircle = OpenLayers.Geometry.Polygon.createRegularPolygon\n(point,{},30,0);\nvar featurecircle = new OpenLayers.Feature.Vector(mycircle);\n\
 var featurePoint = new OpenLayers.Feature.Vector(point);\nvectorLayer.addFeatures([featurePoint, featurecircle]);\n\
-map.addLayer(vectorLayer);</script></body></html>'.format(result[1],result[0],result[2] * 1609))
+map.addLayer(vectorLayer);</script></body></html>'.format(result[1], result[0], result[2] * 1609))
 
     data.name = 'your_range.html'
 
@@ -198,14 +198,13 @@ map.addLayer(vectorLayer);</script></body></html>'.format(result[1],result[0],re
         logger.error("Error: {}".format(sys.exc_info()[0]))
 
 
-
 ##################
 # Handle location
 @bot.message_handler(content_types=['location'])
 def handle_location(message):
     if bot.userok:
         try:
-            cursor.execute("update user set lat = '%s', lon = '%s' where chatid = '%s' and botid = '%s'" % (message.location.latitude,message.location.longitude,message.chat.id,botid))
+            cursor.execute("update user set lat = '%s', lon = '%s' where chatid = '%s' and botid = '%s'" % (message.location.latitude, message.location.longitude, message.chat.id, botid))
             send_range(message.chat.id)
         except:
             sendtelegram(message.chat.id, msg_loc["23"])
@@ -290,7 +289,7 @@ def handle_mydata(message):
             for row in result:
                 cursor.execute("select botname from bot where botid = '%s'" % (row[0]))
                 botname = cursor.fetchone()[0]
-                msg = str(msg_loc["21"].format(botname.replace("_","\_"), row[1], row[2], row[3], row[4], row[5], row[6], row[7]))
+                msg = str(msg_loc["21"].format(botname.replace("_", "\_"), row[1], row[2], row[3], row[4], row[5], row[6], row[7]))
                 sendtelegram(message.chat.id, msg)
                 send_range(message.chat.id)
         else:
