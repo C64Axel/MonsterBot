@@ -497,4 +497,9 @@ httpd.allow_reuse_address = True
 t3 = Thread(name='webhook', target=start_webhook, daemon=True, args=())
 t3.start()
 
-bot.infinity_polling()
+try:
+    bot.infinity_polling()
+except KeyboardInterrupt:
+    logger.info("Bot {} ended".format(botname))
+except Exception as e:
+    raise e
