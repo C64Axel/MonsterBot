@@ -89,6 +89,7 @@ You can use the following text substitution in the venuetitle, venuemsg and ivms
 <road>    : Street name and number of the location
 <poscode> : Postcode of the location
 <town>    : Town of the location
+<weather> : Weatherboost Icon
 ```
 The geofile can have multiple entries like:
 ```
@@ -175,3 +176,5 @@ add geofence
 add allowmode
 ### 01. May 2021
 add TelegramGroup allow
+### 24. Jul 2021
+add weatherboost icon
