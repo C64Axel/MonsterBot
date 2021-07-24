@@ -16,6 +16,16 @@ from lib.auth import user_ok
 
 duplicatemsg = {}
 pkmn_queue = Queue()
+weather = {
+    "0": '',
+    "1": u'\U00002600',
+    "2": u'\U00002614',
+    "3": u'\U000026C5',
+    "4": u'\U00002601',
+    "5": u'\U0001F343',
+    "6": u'\U00002744',
+    "7": u'\U0001F301'
+    }
 
 
 ##################
@@ -46,6 +56,7 @@ def textsub(text, message):
     text = text.replace("<road>", str(message['road']))
     text = text.replace("<postcode>", str(message['postcode']))
     text = text.replace("<town>", str(message['town']))
+    text = text.replace("<weather>", weather[str(message['boosted_weather'])])
     return (str(text))
 
 
@@ -102,6 +113,9 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider, geofences, allow
             message['individual_stamina'] = "??"
             message['cp'] = "??"
             message['pokemon_level'] = "??"
+
+        if not 'boosted_weather' in message:
+            message['boosted_weather'] = 0
 
         # add missing data to message
         message['iv'] = pkmn_iv
