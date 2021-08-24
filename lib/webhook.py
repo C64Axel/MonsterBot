@@ -78,7 +78,11 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider, geofences, allow
 
         # set monster info
         #
-        pkmn_name = pkmn_loc[str(pkmn_id)]["name"]
+        try:
+            pkmn_name = pkmn_loc[str(pkmn_id)]["name"]
+        except:
+            pkmn_name = "{} NOTFOUND".format(str(pkmn_id))
+            logger.warning("{} not found in monster.json".format(str(pkmn_id)))
 
         # check if in geofence
         #
