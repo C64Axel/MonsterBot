@@ -465,6 +465,14 @@ def handle_distance(message):
 
 
 ##################
+# Handle location
+@bot.message_handler(commands=['threadstatus'])
+def handle_threadstatus(message):
+    msg_out = "``` Thread sendmonster is {}\n Thread webhook is {}\n Thread reorg is {} ```".format(t1.is_alive(), t3.is_alive(), t2.is_alive())
+    sendtelegram(message.chat.id, msg_out)
+
+
+##################
 # default handler for every other text
 @bot.message_handler(func=lambda message: True, content_types=['text'])
 def command_default(message):
