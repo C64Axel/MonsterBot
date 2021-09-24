@@ -95,7 +95,7 @@ try:
     botcallname = botident.first_name
     botid = botident.id
     try:
-        cursor.execute("insert into bot values ('%s','%s')" % (botid, botname))
+        cursor.execute("insert into bot (botid, botname) values ('%s','%s')" % (botid, botname))
     except:
         pass
 except:
@@ -258,7 +258,7 @@ def handle_stop(message):
             cursor.execute("select count(*) from user where chatid = '%s'" % (message.chat.id))
             result = cursor.fetchone()
             if result[0] == 0:
-                cursor.execute("insert ignore into userstop values ('%s', CURRENT_TIMESTAMP)" % (message.chat.id))
+                cursor.execute("insert ignore into userstop (chatid) values ('%s')" % (message.chat.id))
         except:
             pass
         sendtelegram(message.chat.id, msg_loc["3"])
@@ -360,7 +360,7 @@ def handle_add(message):
         try:
             pkname = pkmn_loc[str(pkmnid)]["name"]
             try:
-                cursor.execute("insert into userassign values ('%s','%s','%s', '0')" % (pkmnid, message.chat.id, pkmniv))
+                cursor.execute("insert into userassign (pkmnid, chatid, iv) values ('%s','%s','%s')" % (pkmnid, message.chat.id, pkmniv))
                 sendtelegram(message.chat.id, pkname + msg_loc["8"])
             except:
                 sendtelegram(message.chat.id, pkname + msg_loc["9"])
