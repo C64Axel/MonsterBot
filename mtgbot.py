@@ -159,7 +159,7 @@ def log_message(bot_instance, message):
     logger.info("Message from ID:{}:{}:{}".format(message.from_user.id, message.from_user.username, message.text))
     bot_instance.userok = False
 
-    if message.content_type == 'text' and message.text[0] == '/':
+    if (message.content_type == 'text' and message.text[0] == '/') or message.content_type == 'location':
         try:
             connection.ping(reconnect=True)
             if user_ok(bot, connection, allowmode, tggroup, message.chat.id):
