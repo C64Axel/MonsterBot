@@ -228,7 +228,7 @@ def handle_start(message):
         except:
             pass
         try:  # insert users information and the bot id
-            cursor.execute("insert into user values ('%s','%s','%s','%s','%s',current_timestamp, 0, 0, 0)" % (
+            cursor.execute("insert into user values ('%s','%s','%s','%s','%s', 0, 0, 0, current_timestamp)" % (
                 botid, message.chat.username, message.chat.first_name, message.chat.last_name, message.chat.id))
         except:
             pass
