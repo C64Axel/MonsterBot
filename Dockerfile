@@ -1,4 +1,4 @@
-FROM python:3.7-slim
+FROM python:3.7-alpine
 
 # Default port the webserver runs on
 EXPOSE 6000
