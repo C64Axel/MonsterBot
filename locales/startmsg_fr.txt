@@ -1,0 +1,12 @@
+Bonjour !
+
+Ce bot a pour but de t'informer lorsque certains pokémons apparaissent dans ta zone de scan.
+
+Pour cela, des données personnelles sont enregistrées.
+Ces données ne sont enregistrées que pour être utilisées dans le bot et ne sont pas transmises à des tiers.
+
+Pour consulter les données enregistrées, tape /mydata.
+Pour supprimer tes données personnelles, tape /deleteall.
+Il n'est pas possible de garantir dans quel pays tes données sont stockées.
+
+En t'inscrivant, tu acceptes les conditions d'utilisation.
