@@ -87,7 +87,7 @@
         "name": "Sandamer"
     },
     "29": {
-        "name": "Nidoran\u2640"
+        "name": "Nidoran♀"
     },
     "30": {
         "name": "Nidorina"
@@ -96,7 +96,7 @@
         "name": "Nidoqueen"
     },
     "32": {
-        "name": "Nidoran\u2642"
+        "name": "Nidoran♂"
     },
     "33": {
         "name": "Nidorino"
@@ -455,7 +455,7 @@
     "151": {
         "name": "Mew"
     },
-    "152": {
+    "": {
         "name": "Endivie"
     },
     "153": {
@@ -755,7 +755,7 @@
     "251": {
         "name": "Celebi"
     },
-    "252": {
+    "": {
         "name": "Geckarbor"
     },
     "253": {
@@ -1160,7 +1160,7 @@
     "386": {
         "name": "Deoxys"
     },
-    "387": {
+    "": {
         "name": "Chelast"
     },
     "388": {
@@ -1481,7 +1481,7 @@
     "493": {
         "name": "Arceus"
     },
-    "494": {
+    "": {
         "name": "Victini"
     },
     "495": {
@@ -1704,7 +1704,7 @@
         "name": "Aeropteryx"
     },
     "568": {
-        "name": "Unrat\u00fctox"
+        "name": "Unratütox"
     },
     "569": {
         "name": "Deponitox"
@@ -1893,7 +1893,7 @@
         "name": "Grypheldis"
     },
     "631": {
-        "name": "Furnifra\u00df"
+        "name": "Furnifraß"
     },
     "632": {
         "name": "Fermicula"
@@ -1949,7 +1949,7 @@
     "649": {
         "name": "Genesect"
     },
-    "650": {
+    "": {
         "name": "Igamaro"
     },
     "651": {
@@ -2007,7 +2007,7 @@
         "name": "Pyroleo"
     },
     "669": {
-        "name": "Flab\u00e9b\u00e9"
+        "name": "Flabébé"
     },
     "670": {
         "name": "Floette"
@@ -2016,7 +2016,7 @@
         "name": "Florges"
     },
     "672": {
-        "name": "M\u00e4hikel"
+        "name": "Mähikel"
     },
     "673": {
         "name": "Chevrumm"
@@ -2165,7 +2165,7 @@
     "721": {
         "name": "Volcanion"
     },
-    "722": {
+    "": {
         "name": "Bauz"
     },
     "723": {
@@ -2301,7 +2301,7 @@
         "name": "Quartermak"
     },
     "767": {
-        "name": "Rei\u00dflaus"
+        "name": "Reißlaus"
     },
     "768": {
         "name": "Tectass"
@@ -2429,7 +2429,7 @@
     "809": {
         "name": "Melmetal"
     },
-    "810": {
+    "": {
         "name": "Chimpep"
     },
     "811": {
@@ -2577,7 +2577,7 @@
         "name": "Silembrim"
     },
     "859": {
-        "name": "B\u00e4hmon"
+        "name": "Bähmon"
     },
     "860": {
         "name": "Pelzebub"
@@ -2695,5 +2695,362 @@
     },
     "898": {
         "name": "Coronospa"
+    },
+    "899": {
+        "name": "Damythir"
+    },
+    "900": {
+        "name": "Axantor"
+    },
+    "901": {
+        "name": "Ursaluna"
+    },
+    "902": {
+        "name": "Salmagnis"
+    },
+    "903": {
+        "name": "Snieboss"
+    },
+    "904": {
+        "name": "Myriador"
+    },
+    "905": {
+        "name": "Cupidos"
+    },
+    "": {
+        "name": "Felori"
+    },
+    "907": {
+        "name": "Feliospa"
+    },
+    "908": {
+        "name": "Maskagato"
+    },
+    "909": {
+        "name": "Krokel"
+    },
+    "910": {
+        "name": "Lokroko"
+    },
+    "911": {
+        "name": "Skelokrok"
+    },
+    "912": {
+        "name": "Kwaks"
+    },
+    "913": {
+        "name": "Fuentente"
+    },
+    "914": {
+        "name": "Bailonda"
+    },
+    "915": {
+        "name": "Ferkuli"
+    },
+    "916": {
+        "name": "Fragrunz"
+    },
+    "917": {
+        "name": "Tarundel"
+    },
+    "918": {
+        "name": "Spinsidias"
+    },
+    "919": {
+        "name": "Micrick"
+    },
+    "920": {
+        "name": "Lextremo"
+    },
+    "921": {
+        "name": "Pamo"
+    },
+    "922": {
+        "name": "Pamamo"
+    },
+    "923": {
+        "name": "Pamomamo"
+    },
+    "924": {
+        "name": "Zwieps"
+    },
+    "925": {
+        "name": "Famieps"
+    },
+    "926": {
+        "name": "Hefel"
+    },
+    "927": {
+        "name": "Backel"
+    },
+    "928": {
+        "name": "Olini"
+    },
+    "929": {
+        "name": "Olivinio"
+    },
+    "930": {
+        "name": "Olithena"
+    },
+    "931": {
+        "name": "Krawalloro"
+    },
+    "932": {
+        "name": "Geosali"
+    },
+    "933": {
+        "name": "Sedisal"
+    },
+    "934": {
+        "name": "Saltigant"
+    },
+    "935": {
+        "name": "Knarbon"
+    },
+    "936": {
+        "name": "Crimanzo"
+    },
+    "937": {
+        "name": "Azugladis"
+    },
+    "938": {
+        "name": "Blipp"
+    },
+    "939": {
+        "name": "Wampitz"
+    },
+    "940": {
+        "name": "Voltrel"
+    },
+    "941": {
+        "name": "Voltrean"
+    },
+    "942": {
+        "name": "Mobtiff"
+    },
+    "943": {
+        "name": "Mastifioso"
+    },
+    "944": {
+        "name": "Sproxi"
+    },
+    "945": {
+        "name": "Affiti"
+    },
+    "946": {
+        "name": "Weherba"
+    },
+    "947": {
+        "name": "Horrerba"
+    },
+    "948": {
+        "name": "Tentagra"
+    },
+    "949": {
+        "name": "Tenterra"
+    },
+    "950": {
+        "name": "Klibbe"
+    },
+    "951": {
+        "name": "Chilingel"
+    },
+    "952": {
+        "name": "Halupenjo"
+    },
+    "953": {
+        "name": "Relluk"
+    },
+    "954": {
+        "name": "Skarabaks"
+    },
+    "955": {
+        "name": "Flattutu"
+    },
+    "956": {
+        "name": "Psiopatra"
+    },
+    "957": {
+        "name": "Forgita"
+    },
+    "958": {
+        "name": "Tafforgita"
+    },
+    "959": {
+        "name": "Granforgita"
+    },
+    "960": {
+        "name": "Schligda"
+    },
+    "961": {
+        "name": "Schligdri"
+    },
+    "962": {
+        "name": "Adebom"
+    },
+    "963": {
+        "name": "Normifin"
+    },
+    "964": {
+        "name": "Delfinator"
+    },
+    "965": {
+        "name": "Knattox"
+    },
+    "966": {
+        "name": "Knattatox"
+    },
+    "967": {
+        "name": "Mopex"
+    },
+    "968": {
+        "name": "Schlurm"
+    },
+    "969": {
+        "name": "Lumispross"
+    },
+    "970": {
+        "name": "Lumiflora"
+    },
+    "971": {
+        "name": "Gruff"
+    },
+    "972": {
+        "name": "Friedwuff"
+    },
+    "973": {
+        "name": "Flaminkno"
+    },
+    "974": {
+        "name": "Flaniwal"
+    },
+    "975": {
+        "name": "Kolowal"
+    },
+    "976": {
+        "name": "Agiluza"
+    },
+    "977": {
+        "name": "Heerashai"
+    },
+    "978": {
+        "name": "Nigiragi"
+    },
+    "979": {
+        "name": "Epitaff"
+    },
+    "980": {
+        "name": "Suelord"
+    },
+    "981": {
+        "name": "Farigiraf"
+    },
+    "982": {
+        "name": "Dummimisel"
+    },
+    "983": {
+        "name": "Gladimperio"
+    },
+    "984": {
+        "name": "Riesenzahn"
+    },
+    "985": {
+        "name": "Brüllschweif"
+    },
+    "986": {
+        "name": "Wutpilz"
+    },
+    "987": {
+        "name": "Flatterhaar"
+    },
+    "988": {
+        "name": "Kriechflügel"
+    },
+    "989": {
+        "name": "Sandfell"
+    },
+    "990": {
+        "name": "Eisenrad"
+    },
+    "991": {
+        "name": "Eisenbündel"
+    },
+    "992": {
+        "name": "Eisenhand"
+    },
+    "993": {
+        "name": "Eisenhals"
+    },
+    "994": {
+        "name": "Eisenfalter"
+    },
+    "995": {
+        "name": "Eisendorn"
+    },
+    "996": {
+        "name": "Frospino"
+    },
+    "997": {
+        "name": "Cryospino"
+    },
+    "998": {
+        "name": "Espinodon"
+    },
+    "999": {
+        "name": "Gierspenst"
+    },
+    "1000": {
+        "name": "Monetigo"
+    },
+    "1001": {
+        "name": "Chongjian"
+    },
+    "1002": {
+        "name": "Baojian"
+    },
+    "1003": {
+        "name": "Dinglu"
+    },
+    "1004": {
+        "name": "Yuyu"
+    },
+    "1005": {
+        "name": "Donnersichel"
+    },
+    "1006": {
+        "name": "Eisenkrieger"
+    },
+    "1007": {
+        "name": "Koraidon"
+    },
+    "1008": {
+        "name": "Miraidon"
+    },
+    "1009": {
+        "name": "Windewoge"
+    },
+    "1010": {
+        "name": "Eisenblatt"
+    },
+    "1011": {
+        "name": "Sirapfel"
+    },
+    "1012": {
+        "name": "Mortcha"
+    },
+    "1013": {
+        "name": "Fatalitcha"
+    },
+    "1014": {
+        "name": "Boninu"
+    },
+    "1015": {
+        "name": "Benesaru"
+    },
+    "1016": {
+        "name": "Beatori"
+    },
+    "1017": {
+        "name": "Ogerpon"
     }
-}
+}    
