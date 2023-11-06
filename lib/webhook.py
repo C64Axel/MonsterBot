@@ -142,7 +142,7 @@ def sendmonster(bot, config, connection, pkmn_loc, geoprovider, geofences, allow
             for chat_id, iv, level in result_pkmn:
 
                 if not user_ok(bot, connection, allowmode, tggroup, chat_id):
-                    logger.info("ChatID {} not allowed for this Bot but has assignments".format(chat_id))
+                    logger.warning("ChatID {} not allowed for this Bot but has assignments".format(chat_id))
                     continue
 
                 # get the user details
